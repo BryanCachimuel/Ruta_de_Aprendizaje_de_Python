@@ -39,12 +39,21 @@ class Mascota(Animal):
     # en la parte inferior super seguido de los atributos de instancia
     def __init__(self, especie, edad, nombre):
         super().__init__(especie, edad)
-        self.nombre = nombre
+        # encapsulación en python mediante la raya baja permite que el atributo pase a ser privado y no pueda ser editado fuera de la clase
+        self.__nombre = nombre
+
+    # para acceder al atributo __nombre es necesario utilizar un método get
+    def get_nombre(self):
+        return self.__nombre
+    
+    # para editar el atributo __nombre es necesario utilizar el método set
+    def set_nombre(self, nombre):
+        self.__nombre = nombre
 
     # se puede modificar el método de la clase Animal para poder imprimir los atributos de 
     # instancia propios de la clase Mascota
     def informacion(self):
-        print(f"Nombre: {self.nombre}, Especie: {self.especie}, edad: {self.edad}")
+        print(f"Nombre: {self.__nombre}, Especie: {self.especie}, edad: {self.edad}")
     
     def hablar(self):
         pass
@@ -52,8 +61,13 @@ class Mascota(Animal):
     def __str__(self):
         return f"Mascota[Nombre: {self.nombre}, Especie: {self.especie}, edad: {self.edad}]"
 
-# mascota = Mascota("Perro","2 años","Bobby")
-# mascota.informacion()
+mascota = Mascota("Perro","2 años","Bobby")
+mascota.edad = "5 años"
+
+mascota.set_nombre("Danddy")
+print(mascota.get_nombre())
+
+mascota.informacion()
 # print(mascota.__str__())
 
 class Perro(Mascota):
@@ -67,5 +81,5 @@ class Gato(Mascota):
 p = Perro("Canino","1 Año", "Boddy")
 g = Gato("Felino","2 Años", "Pelusa")
 
-print(p.hablar())
-print(g.hablar())
+# print(p.hablar())
+# print(g.hablar())
