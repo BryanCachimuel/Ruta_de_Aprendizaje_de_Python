@@ -7,19 +7,26 @@ Programación Orientada a Objetos
 class Animal:
 
     # atributos de la clase
-    especie = ""
-    edad = 0
+    # especie = ""
+    # edad = 0
 
-    
 
-# Objeto perro de la clase Animal
-perro = Animal()
-perro.especie = "Canino"
-perro.edad = "1 Año"
+    # constructor
+    # self hace referencia a la clase
+    # especie y edad en este caso son atributos de instancia
+    def __init__(self, especie, edad)->None:
+        self.especie = especie
+        self.edad = edad  
 
-gato = Animal()
-gato.especie = "Felino"
-gato.edad = "6 meses"
+    # self indica que esté es un método de la clase Animal
+    def informacion(self):
+        print(f"Especie: {self.especie}, edad: {self.edad}")
 
-print(perro.especie)
-print(gato.especie)
+animal1 = Animal("Perro","1 año")
+animal2 = Animal("Gato","6 meses")
+
+print(animal1.especie)
+print(animal2.especie)
+
+animal1.informacion()
+animal2.informacion()
