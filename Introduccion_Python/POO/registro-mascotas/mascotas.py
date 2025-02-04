@@ -46,9 +46,26 @@ class Mascota(Animal):
     def informacion(self):
         print(f"Nombre: {self.nombre}, Especie: {self.especie}, edad: {self.edad}")
     
+    def hablar(self):
+        pass
+    
     def __str__(self):
         return f"Mascota[Nombre: {self.nombre}, Especie: {self.especie}, edad: {self.edad}]"
 
-mascota = Mascota("Perro","2 años","Bobby")
-mascota.informacion()
-print(mascota.__str__())
+# mascota = Mascota("Perro","2 años","Bobby")
+# mascota.informacion()
+# print(mascota.__str__())
+
+class Perro(Mascota):
+    def hablar(self):
+        return "Woof!"
+
+class Gato(Mascota):
+    def hablar(self):
+        return "Miau!"
+    
+p = Perro("Canino","1 Año", "Boddy")
+g = Gato("Felino","2 Años", "Pelusa")
+
+print(p.hablar())
+print(g.hablar())
