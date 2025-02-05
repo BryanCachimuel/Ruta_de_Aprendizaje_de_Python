@@ -7,20 +7,26 @@ import datetime as dt
 # se puede decidir que solo vamos a utilizar un método del modulo importado
 from datetime import date as d
 
-# para usar todas las funciones de un módulo se pone *
-# from datetime import *
+# si estamos en el archivo principal se podrá ejecutar el código que esta más abajo
+if __name__ == "__main__":
 
-# obtiene la fecha de hoy
-hoy = d.today()
-print(hoy)
+    # para usar todas las funciones de un módulo se pone *
+    # from datetime import *
 
-# obtiene la fecha y hora actual
-hoy = dt.datetime.now()
-print(hoy)
+    # obtiene la fecha de hoy
+    hoy = d.today()
+    print(hoy)
 
-# mandamos a llamar al directorio y archivo paquete/modulo
-from paquete.modulo import aviso
+    # obtiene la fecha y hora actual
+    hoy = dt.datetime.now()
+    print(hoy)
 
-from paquete import modulo
+    # mandamos a llamar al directorio y archivo paquete/modulo
+    from paquete.modulo import aviso
 
-modulo.aviso()
+    from paquete import modulo
+
+    modulo.aviso()
+
+    # Caso de uso de la palabra reservada __name__ para desiganr un archivo principal
+    print(__name__)
