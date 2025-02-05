@@ -7,6 +7,12 @@ import datetime as dt
 # se puede decidir que solo vamos a utilizar un método del modulo importado
 from datetime import date as d
 
+# usando paquetes externos
+from colorama import init, Fore
+
+# se inicializa el paquete externo
+init()
+
 # si estamos en el archivo principal se podrá ejecutar el código que esta más abajo
 if __name__ == "__main__":
 
@@ -30,3 +36,11 @@ if __name__ == "__main__":
 
     # Caso de uso de la palabra reservada __name__ para desiganr un archivo principal
     print(__name__)
+
+    print(Fore.RED + "Este es un mensaje rojo")
+    print(Fore.GREEN + "Este es un mensaje verde")
+    print(Fore.BLUE + "Este es un mensaje azul")    
+
+    # para instalar un paquete externo se debe utilizar pip install colorama
+    # para desinstalar un paquete se debe poner pip uninstall colorama
+
