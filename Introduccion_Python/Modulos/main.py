@@ -17,3 +17,10 @@ print(hoy)
 # obtiene la fecha y hora actual
 hoy = dt.datetime.now()
 print(hoy)
+
+# mandamos a llamar al directorio y archivo paquete/modulo
+from paquete.modulo import aviso
+
+from paquete import modulo
+
+modulo.aviso()
