@@ -42,6 +42,8 @@ class RegistroMascotas:
             print(" Lista de Mascotas \n", "="*30)
             for i, mascota in enumerate(self.mascotas, start=1):
                 print(f"{i}. {mascota}")
+        else:
+            print("No hay mascotas registradas.")
 
 
     def editar_mascota(self, indice, nueva_mascota):
