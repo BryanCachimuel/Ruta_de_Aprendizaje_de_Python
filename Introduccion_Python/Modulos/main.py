@@ -44,3 +44,9 @@ if __name__ == "__main__":
     # para instalar un paquete externo se debe utilizar pip install colorama
     # para desinstalar un paquete se debe poner pip uninstall colorama
 
+
+
+    # Crear un entorno virtual        -> python -m -venv -env
+    # Para activar un entorno virtual -> .env\Scripts\activate
+    # Para salir del entorno virtual  -> deactivate
+ 
