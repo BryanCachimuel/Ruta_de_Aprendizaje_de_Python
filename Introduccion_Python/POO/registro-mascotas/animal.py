@@ -22,3 +22,21 @@ class RegistroMascotas:
     """Clase para representar un registro de mascotas."""
     def __init__(self):
         self.mascotas = []
+
+    def agregar_mascota(self, mascota):
+        """
+        Agrega una mascota al registro
+
+        Parameters:
+            mascota (Mascota): La mascota a agregar al registro
+        """
+        self.mascotas.append(mascota)
+
+    def listar_mascotas(self):
+        """
+        Lista todas las mascotas registradas
+        """
+        if self.mascotas:
+            print(" Lista de Mascotas \n", "="*30)
+            for i, mascota in enumerate(self.mascotas, start=1):
+                print(f"{i}. {mascota}")
