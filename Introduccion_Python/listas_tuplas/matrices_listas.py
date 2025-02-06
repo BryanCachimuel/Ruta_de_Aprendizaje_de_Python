@@ -55,3 +55,27 @@ for fila_posicion in range(filas):
 
 for fila in matriz:
     print(fila)
+
+# Suma de matrices
+matriz_a = [[1,2,3],
+            [4,5,6],
+            [7,8,9]]
+
+matriz_b = [[1,2,3],
+            [4,1,2],
+            [1,1,0]]
+
+matriz_c = []
+
+for row in range(len(matriz_a)):
+    new_row = []
+    for column in range(len(matriz_a[0])):
+        new_row.append(matriz_a[row][column] + matriz_b[row][column])
+    matriz_c.append(new_row)
+
+for row in range(len(matriz_a)):
+    if row != 1:
+        print(f"{matriz_a[row]}   {matriz_b[row]}   {matriz_c[row]}")
+    else:
+        print(f"{matriz_a[row]} + {matriz_b[row]} = {matriz_c[row]}")
+
