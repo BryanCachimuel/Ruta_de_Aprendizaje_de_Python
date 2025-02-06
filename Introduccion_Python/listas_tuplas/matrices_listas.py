@@ -40,3 +40,18 @@ for row in matrix:
     for element in row:
         print(element, end=" ")
     print()
+
+# Crear una matriz desde teclado
+filas = int(input("¿Cuántas filas tendrá la matriz?: "))
+columnas = int(input("¿Cuántas columnas tendrá la matriz?: "))
+
+matriz = []
+
+for fila_posicion in range(filas):
+    fila = []
+    for elemento in range(columnas):
+        fila.append(int(input(f"Introduce un elemento a la fila {fila_posicion}: ")))
+    matriz.append(fila)
+
+for fila in matriz:
+    print(fila)
