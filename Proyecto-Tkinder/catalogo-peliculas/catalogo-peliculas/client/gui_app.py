@@ -22,4 +22,21 @@ class Frame(tk.Frame):
         super().__init__(root, width=480, height=320)
         self.root = root
         self.pack()
-        self.config(bg='green')
+        #self.config(bg='green')
+
+        self.campos_pelicula()
+
+    # labels para agregar una pelicula
+    def campos_pelicula(self):
+        # labels de cada campo
+        self.label_nombre = tk.Label(self, text='Nombre: ')
+        self.label_nombre.config(font=('Arial',12,'bold'))
+        self.label_nombre.grid(row=0, column=0, padx=10, pady=10)
+
+        self.label_duracion = tk.Label(self, text='Duración: ')
+        self.label_duracion.config(font=('Arial',12,'bold'))
+        self.label_duracion.grid(row=1, column=0, padx=10, pady=10)
+
+        self.label_genero = tk.Label(self, text='Género: ')
+        self.label_genero.config(font=('Arial',12,'bold'))
+        self.label_genero.grid(row=2, column=0, padx=10, pady=10)
