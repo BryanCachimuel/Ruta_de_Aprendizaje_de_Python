@@ -40,3 +40,16 @@ class Frame(tk.Frame):
         self.label_genero = tk.Label(self, text='Género: ')
         self.label_genero.config(font=('Arial',12,'bold'))
         self.label_genero.grid(row=2, column=0, padx=10, pady=10)
+
+        # diseñando los entrys o campos de entrada
+        self.entry_nombre = tk.Entry(self)
+        self.entry_nombre.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_nombre.grid(row=0, column=1, padx=10, pady=10)
+
+        self.entry_duracion = tk.Entry(self)
+        self.entry_duracion.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_duracion.grid(row=1, column=1, padx=10, pady=10)
+
+        self.entry_genero = tk.Entry(self)
+        self.entry_genero.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_genero.grid(row=2, column=1, padx=10, pady=10)
