@@ -25,6 +25,7 @@ class Frame(tk.Frame):
         #self.config(bg='green')
 
         self.campos_pelicula()
+        self.desabilitar_campos()
 
     # labels para agregar una pelicula
     def campos_pelicula(self):
@@ -43,19 +44,19 @@ class Frame(tk.Frame):
 
         # diseñando los entrys o campos de entrada
         self.entry_nombre = tk.Entry(self)
-        self.entry_nombre.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_nombre.config(width=50, font=('Arial',12))
         self.entry_nombre.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
 
         self.entry_duracion = tk.Entry(self)
-        self.entry_duracion.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_duracion.config(width=50, font=('Arial',12))
         self.entry_duracion.grid(row=1, column=1, padx=10, pady=10, columnspan=2)
 
         self.entry_genero = tk.Entry(self)
-        self.entry_genero.config(width=50, state='disabled', font=('Arial',12))
+        self.entry_genero.config(width=50,  font=('Arial',12))
         self.entry_genero.grid(row=2, column=1, padx=10, pady=10, columnspan=2)
 
         # Botones
-        self.boton_nuevo = tk.Button(self, text="Nuevo")
+        self.boton_nuevo = tk.Button(self, text="Nuevo", command=self.habilitar_campos)
         self.boton_nuevo.config(width=20, font=('Arial', 12, 'bold'), 
                                 fg='#DAD5D6', 
                                 bg='#158645', 
@@ -71,10 +72,26 @@ class Frame(tk.Frame):
                                 activebackground='#3586DF')
         self.boton_guardar.grid(row=4, column=1,padx=10, pady=10)
 
-        self.boton_cancelar = tk.Button(self, text="Cancelar")
+        self.boton_cancelar = tk.Button(self, text="Cancelar", command=self.desabilitar_campos)
         self.boton_cancelar.config(width=20, font=('Arial', 12, 'bold'), 
                                 fg='#DAD5D6', 
                                 bg='#BD152E', 
                                 cursor='hand2',
                                 activebackground='#E15370')
         self.boton_cancelar.grid(row=4, column=2,padx=10, pady=10)
+
+    def habilitar_campos(self):
+        self.entry_nombre.config(state='normal')
+        self.entry_duracion.config(state='normal')
+        self.entry_genero.config(state='normal')
+
+        self.boton_guardar.config(state='normal')
+        self.boton_cancelar.config(state='normal')
+
+    def desabilitar_campos(self):
+        self.entry_nombre.config(state='disabled')
+        self.entry_duracion.config(state='disabled')
+        self.entry_genero.config(state='disabled')
+
+        self.boton_guardar.config(state='disabled')
+        self.boton_cancelar.config(state='disabled')
