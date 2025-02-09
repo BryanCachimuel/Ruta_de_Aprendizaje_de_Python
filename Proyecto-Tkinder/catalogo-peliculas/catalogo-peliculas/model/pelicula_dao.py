@@ -14,3 +14,10 @@ def crear_tabla():
 
     conexion.cursor.execute(sql)
     conexion.cerrar()
+
+def borrar_tabla():
+    conexion = ConexionDB()
+    sql = 'DROP TABLE peliculas'
+
+    conexion.cursor.execute(sql)
+    conexion.cerrar()
