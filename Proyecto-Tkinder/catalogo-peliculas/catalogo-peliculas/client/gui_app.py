@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 def barra_menu(root):
     barra_menu = tk.Menu(root)
@@ -26,6 +27,7 @@ class Frame(tk.Frame):
 
         self.campos_pelicula()
         self.desabilitar_campos()
+        self.tabla_peliculas()
 
     # labels para agregar una pelicula
     def campos_pelicula(self):
@@ -65,7 +67,7 @@ class Frame(tk.Frame):
                                 bg='#158645', 
                                 cursor='hand2',
                                 activebackground='#35BD6F')
-        self.boton_nuevo.grid(row=4, column=0,padx=10, pady=10)
+        self.boton_nuevo.grid(row=3, column=0,padx=10, pady=10)
 
         self.boton_guardar = tk.Button(self, text="Guardar", command=self.guardar_datos)
         self.boton_guardar.config(width=20, font=('Arial', 12, 'bold'), 
@@ -73,7 +75,7 @@ class Frame(tk.Frame):
                                 bg='#1658A2', 
                                 cursor='hand2',
                                 activebackground='#3586DF')
-        self.boton_guardar.grid(row=4, column=1,padx=10, pady=10)
+        self.boton_guardar.grid(row=3, column=1,padx=10, pady=10)
 
         self.boton_cancelar = tk.Button(self, text="Cancelar", command=self.desabilitar_campos)
         self.boton_cancelar.config(width=20, font=('Arial', 12, 'bold'), 
@@ -81,7 +83,7 @@ class Frame(tk.Frame):
                                 bg='#BD152E', 
                                 cursor='hand2',
                                 activebackground='#E15370')
-        self.boton_cancelar.grid(row=4, column=2,padx=10, pady=10)
+        self.boton_cancelar.grid(row=3, column=2,padx=10, pady=10)
 
     def habilitar_campos(self):
         self.mi_nombre.set('')
@@ -108,4 +110,17 @@ class Frame(tk.Frame):
         self.boton_cancelar.config(state='disabled')
 
     def guardar_datos(self):
+        # desabilitar campos
         self.desabilitar_campos()
+
+    # construyendo la tabla donde se listan los registros
+    def tabla_peliculas(self):
+        self.tabla = ttk.Treeview(self, column=('Nombre','Duración','Genero'))
+        self.tabla.grid(row=4, column=0, columnspan=4)
+
+        self.tabla.heading('#0', text='ID')
+        self.tabla.heading('#1', text='NOMBRE')
+        self.tabla.heading('#2', text='DURACIÓN')
+        self.tabla.heading('#3', text='GÉNERO')
+
+        self.tabla.insert('',0,text='1',values=('Los Vengadores','2:35:00','Acción'))
