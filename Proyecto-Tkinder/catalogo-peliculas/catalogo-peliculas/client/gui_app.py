@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from model.pelicula_dao import crear_tabla, borrar_tabla
+from model.pelicula_dao import Pelicula, guardar
 
 def barra_menu(root):
     barra_menu = tk.Menu(root)
@@ -10,8 +12,8 @@ def barra_menu(root):
     barra_menu.add_cascade(label='Inicio', menu=menu_inicio)
 
     # submenus de inicio
-    menu_inicio.add_command(label='Crear Registro en BD')
-    menu_inicio.add_command(label='Eliminar Registro en BD')
+    menu_inicio.add_command(label='Crear Registro en BD', command=crear_tabla)
+    menu_inicio.add_command(label='Eliminar Registro en BD', command=borrar_tabla)
     menu_inicio.add_command(label='Salir', command=root.destroy)
 
     barra_menu.add_cascade(label='Consultas')
@@ -110,6 +112,14 @@ class Frame(tk.Frame):
         self.boton_cancelar.config(state='disabled')
 
     def guardar_datos(self):
+        pelicula = Pelicula(
+            self.mi_nombre.get(),
+            self.mi_duracion.get(),
+            self.mi_genero.get(),
+        )
+
+        guardar(pelicula)
+
         # desabilitar campos
         self.desabilitar_campos()
 
