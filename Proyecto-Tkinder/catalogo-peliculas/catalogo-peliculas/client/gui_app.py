@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from model.pelicula_dao import crear_tabla, borrar_tabla, Pelicula, guardar, listar
+from model.pelicula_dao import crear_tabla, borrar_tabla, Pelicula, guardar, listar, editar
 
 def barra_menu(root):
     barra_menu = tk.Menu(root)
@@ -25,6 +25,7 @@ class Frame(tk.Frame):
         self.root = root
         self.pack()
         #self.config(bg='green')
+        self.id_pelicula = None
 
         self.campos_pelicula()
         self.desabilitar_campos()
@@ -117,7 +118,10 @@ class Frame(tk.Frame):
             self.mi_genero.get(),
         )
 
-        guardar(pelicula)
+        if self.id_pelicula == None:
+            guardar(pelicula)
+        else:
+            editar(pelicula, self.id_pelicula)
 
         # Cada vez que se registra una película se debe actualizar la tabla donde se listan las películas
         self.tabla_peliculas()
@@ -149,7 +153,7 @@ class Frame(tk.Frame):
             self.tabla.insert('',0,text=peliculas[0],values=(peliculas[1],peliculas[2],peliculas[3]))
         
         # Boton para editar
-        self.boton_editar = tk.Button(self, text="Editar")
+        self.boton_editar = tk.Button(self, text="Editar", command=self.editar_datos)
         self.boton_editar.config(width=20, font=('Arial', 12, 'bold'), 
                                     fg='#DAD5D6', 
                                     bg='#0f13e6', 
@@ -165,3 +169,22 @@ class Frame(tk.Frame):
                                 cursor='hand2',
                                 activebackground='#d752e2')
         self.boton_eliminar.grid(row=5, column=1,padx=10, pady=10)
+
+    def editar_datos(self):
+        try:
+            # seleccionamos una fila de la tabla y obtenemos los datos de los atributos de la pelicula seleccionada
+            self.id_pelicula = self.tabla.item(self.tabla.selection())['text']
+            self.nombre_pelicula = self.tabla.item(self.tabla.selection())['values'][0]
+            self.duracion_pelicula = self.tabla.item(self.tabla.selection())['values'][1]
+            self.genero_pelicula = self.tabla.item(self.tabla.selection())['values'][2]    
+
+            # se habilitan los campos para poder editarlos
+            self.habilitar_campos()    
+
+            self.entry_nombre.insert(0, self.nombre_pelicula) 
+            self.entry_duracion.insert(0, self.duracion_pelicula) 
+            self.entry_genero.insert(0, self.genero_pelicula) 
+        except:
+            titulo = 'Edición de Datos'
+            mensaje = 'No se a seleccionado ningun registro'
+            messagebox.showerror(titulo,mensaje)
