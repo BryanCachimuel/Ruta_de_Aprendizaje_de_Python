@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from model.pelicula_dao import crear_tabla, borrar_tabla
-from model.pelicula_dao import Pelicula, guardar
+from model.pelicula_dao import crear_tabla, borrar_tabla, Pelicula, guardar, listar
 
 def barra_menu(root):
     barra_menu = tk.Menu(root)
@@ -120,11 +119,18 @@ class Frame(tk.Frame):
 
         guardar(pelicula)
 
+        # Cada vez que se registra una película se debe actualizar la tabla donde se listan las películas
+        self.tabla_peliculas()
+
         # desabilitar campos
         self.desabilitar_campos()
 
     # construyendo la tabla donde se listan los registros
     def tabla_peliculas(self):
+        # Recuperar la lista de peliculas
+        self.lista_peliculas = listar()
+        self.lista_peliculas.reverse()
+
         self.tabla = ttk.Treeview(self, column=('Nombre','Duración','Genero'))
         self.tabla.grid(row=4, column=0, columnspan=4)
 
@@ -133,7 +139,9 @@ class Frame(tk.Frame):
         self.tabla.heading('#2', text='DURACIÓN')
         self.tabla.heading('#3', text='GÉNERO')
 
-        self.tabla.insert('',0,text='1',values=('Los Vengadores','2:35:00','Acción'))
+        # Iterar la lista de peliculas
+        for peliculas in self.lista_peliculas:
+            self.tabla.insert('',0,text=peliculas[0],values=(peliculas[1],peliculas[2],peliculas[3]))
         
         # Boton para editar
         self.boton_editar = tk.Button(self, text="Editar")
