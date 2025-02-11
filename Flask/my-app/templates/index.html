@@ -15,5 +15,12 @@
     {% else %}
         <p>Hola, Desconocido</p>
     {% endif %}
+
+    <h2>Lista de Amigos</h2>
+    <ul>
+        {% for amigo in amigos %}
+            <li>{{ amigo }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
