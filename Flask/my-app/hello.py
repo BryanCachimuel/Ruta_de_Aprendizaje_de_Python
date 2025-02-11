@@ -13,6 +13,13 @@ def index():
     nombre = 'Bryan'
     return render_template('index.html', nombre = nombre)
 
+# a una vista se le puede enviar diferentes tipos de datos
+@app.route('/variables')
+def tipos():
+    nombre = 'Jenny'
+    amigos = ['Nelson','Cristoper','Kevin','Michelle']
+    return render_template('index.html', nombre = nombre, amigos = amigos)
+
 @app.route('/saludo')
 def saludo():
     return '<h1>Página de Saludos</h1>'
