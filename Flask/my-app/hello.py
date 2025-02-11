@@ -26,6 +26,7 @@ def asignar(nombre):
 def informacion(nombre,edad):
     return f'<h1>Hola tu información es: nombre: {nombre} y tu edad es: {edad} años</h1>'
 
+# variables en las rutas con condicionales
 @app.route('/mascotas')
 @app.route('/mascotas/<nombre>')
 @app.route('/mascotas/<string:nombre>/<int:edad>')
@@ -37,6 +38,14 @@ def animales(nombre = None, edad = None):
     else:
         return f'<h1>Hola mascota de nombre: {nombre}, tu doble de edad es: {edad*2} años</h1>'
 
+# escape de html -> permite que no se realicen ataques a nuestros sistemas
+# ya que mediante la url se puede ingresar scripts y mediante escape estos 
+# scripts se muestran como textos en pantalla
+from markupsafe import escape
+
+@app.route('/code/<path:code>')
+def code(code):
+    return f'<code>{escape(code)}</code>'
 
 # para que los errores se puedan ver en el navegador se pone en formato debug cuando se manda a ejecutar el proyecto
 # flask --app hello --debug run 
