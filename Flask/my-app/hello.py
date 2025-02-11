@@ -1,14 +1,17 @@
-from flask import Flask
+from flask import Flask, render_template
 
 # cuando se pone __name__ estanis diciendo que está es nuestra aplicación de flask
 app = Flask(__name__)
 
 # se crean las rutas
 # se puede agregar varias rutas a una vista
+# con render_template se puede redirigir hacia una vista con html
+# se manda como parámetro la variable name hacia la vista
 @app.route('/')
 @app.route('/index')
 def index():
-    return '<h1>Página de Inicio</h1>'
+    nombre = 'Bryan'
+    return render_template('index.html', nombre = nombre)
 
 @app.route('/saludo')
 def saludo():
