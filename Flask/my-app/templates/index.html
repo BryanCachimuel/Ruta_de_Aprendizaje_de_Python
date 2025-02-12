@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Sitio Web</title>
-</head>
-<body>
-    <h1>Bienvenido a mi Sitio Web</h1>
+{% extends 'base.html' %} {% block title %} Página de Inicio {% endblock %} {%
+block content %}
+<h1>Bienvenido a mi Sitio Web</h1>
 
-    <!-- para estructuras de control, bucles entre otros se usa lo siguiente -->
-     {% if nombre %}
-        <!-- {{nombre}} es la varible envida desde la ruta hacia esta vista-->
-        <p>Hola, Saludos {{nombre}}</p>
-    {% else %}
-        <p>Hola, Desconocido</p>
-    {% endif %}
+<!-- para estructuras de control, bucles entre otros se usa lo siguiente -->
+{% if name %}
+<!-- {{nombre}} es la varible envida desde la ruta hacia esta vista-->
+<p>Hola, Saludos {{ name }}</p>
+{% else %}
+<p>Hola, Desconocido</p>
+{% endif %}
 
-    <h2>Lista de Amigos</h2>
-    <ul>
-        {% for amigo in amigos %}
-            <li>{{ amigo }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+<h2>Lista de Amigos</h2>
+<ul>
+  {% for friend in friends %}
+  <li>{{ friend }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
