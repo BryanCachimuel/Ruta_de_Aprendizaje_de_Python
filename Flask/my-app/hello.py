@@ -28,8 +28,6 @@ app.add_template_global(repeat, 'repeat')
 # con render_template se puede redirigir hacia una vista con html
 # se manda como parámetro la variable name hacia la vista
 # a una vista se le puede enviar diferentes tipos de datos como: strings, listas
-
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -63,14 +61,15 @@ def informacion(nombre,edad):
 # variables en las rutas con condicionales
 @app.route('/mascotas')
 @app.route('/mascotas/<nombre>')
-@app.route('/mascotas/<string:nombre>/<int:edad>')
-def animales(nombre = None, edad = None):
-    if nombre == None and edad == None:
-        return '<h1>Saludos a todos los animales</h1>'
-    elif edad == None:
-        return f'<h1>Holas, {nombre}</h1>'
-    else:
-        return f'<h1>Hola mascota de nombre: {nombre}, tu doble de edad es: {edad*2} años</h1>'
+@app.route('/mascotas/<nombre>/<int:edad>')
+@app.route('/mascotas/<string:nombre>/<int:edad>/<email>')
+def animales(nombre = None, edad = None, email = None):
+    mis_datos = {
+        'nombre': nombre,
+        'edad' : edad,
+        'email' : email
+    }
+    return render_template('mascotas.html', datos = mis_datos)
 
 # escape de html -> permite que no se realicen ataques a nuestros sistemas
 # ya que mediante la url se puede ingresar scripts y mediante escape estos 
