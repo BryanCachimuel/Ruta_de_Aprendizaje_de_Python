@@ -5,15 +5,21 @@ block content %}
 <!-- para estructuras de control, bucles entre otros se usa lo siguiente -->
 {% if name %}
 <!-- {{nombre}} es la varible envida desde la ruta hacia esta vista-->
-<p>Hola, Saludos {{ name }}</p>
+ <!-- usa el filtro | upper para transformar a mayusculas el contenido de la variable name -->
+<p>Hola, Saludos {{ name | upper }}</p>
 {% else %}
 <p>Hola, Desconocido</p>
 {% endif %}
 
 <h2>Lista de Amigos</h2>
 <ul>
-  {% for friend in friends %}
-  <li>{{ friend }}</li>
+    <!-- aplicando el filtro | reverse se puede reviertir la lista -->
+  {% for friend in friends | reverse %}
+  <li>{{ friend  }}</li>
   {% endfor %}
 </ul>
+
+<p>La fecha de hoy día es: {{ date | today }}</p>
+
+<p>La frase repetida es: {{ repeat("BL",7) }}</p>
 {% endblock %}
