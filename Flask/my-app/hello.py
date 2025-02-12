@@ -1,21 +1,48 @@
 from flask import Flask, render_template
+from datetime import datetime
 
 # cuando se pone __name__ estanis diciendo que está es nuestra aplicación de flask
 app = Flask(__name__)
+
+# se pueden aplicar fitros personalizados
+# para que esto quede registrados en los filtros de flask o Jinja2 se debe aplicar el decorador @app.add_template_filter
+# estos filtros se van a poder utilizar en toda la aplicación
+@app.add_template_filter
+def today(date):
+    return date.strftime('%d-%m-%Y')  # formato en que queremos se presente la fecha
+
+# la función today también se puede registrar de esta manera como un filtro para toda la aplicación
+# app.add_template_filter(today, 'today')
+
+# creando una función personalizada
+# con el decorador @app.add_template_global permite que está función no se necesaria de enviar como renderizado hacia la vista index.html
+#@app.add_template_global
+def repeat(cadena, numero):
+    return cadena * numero
+
+# o también se puede utilizar lo siguiente para que está función sea global dentro de la aplicación
+app.add_template_global(repeat, 'repeat')
 
 # se crean las rutas
 # se puede agregar varias rutas a una vista
 # con render_template se puede redirigir hacia una vista con html
 # se manda como parámetro la variable name hacia la vista
-# a una vista se le puede enviar diferentes tipos de datos
+# a una vista se le puede enviar diferentes tipos de datos como: strings, listas
+
+
 @app.route('/')
 @app.route('/index')
 def index():
     name = 'Jenny'
     friends = ['Nelson','Cristoper','Kevin','Michelle']
-    return render_template('index.html', name = name, friends = friends)
-
-
+    date = datetime.now()
+    return render_template(
+                           'index.html', 
+                           name = name, 
+                           friends = friends, 
+                           date =  date
+                           #repeat = repeat
+                           )
 
 @app.route('/saludo')
 def saludo():
