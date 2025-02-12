@@ -7,18 +7,15 @@ app = Flask(__name__)
 # se puede agregar varias rutas a una vista
 # con render_template se puede redirigir hacia una vista con html
 # se manda como parámetro la variable name hacia la vista
+# a una vista se le puede enviar diferentes tipos de datos
 @app.route('/')
 @app.route('/index')
 def index():
-    nombre = 'Bryan'
-    return render_template('index.html', nombre = nombre)
+    name = 'Jenny'
+    friends = ['Nelson','Cristoper','Kevin','Michelle']
+    return render_template('index.html', name = name, friends = friends)
 
-# a una vista se le puede enviar diferentes tipos de datos
-@app.route('/variables')
-def tipos():
-    nombre = 'Jenny'
-    amigos = ['Nelson','Cristoper','Kevin','Michelle']
-    return render_template('index.html', nombre = nombre, amigos = amigos)
+
 
 @app.route('/saludo')
 def saludo():
