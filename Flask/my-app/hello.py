@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from datetime import datetime
 
 # cuando se pone __name__ estanis diciendo que está es nuestra aplicación de flask
@@ -29,8 +29,13 @@ app.add_template_global(repeat, 'repeat')
 # se manda como parámetro la variable name hacia la vista
 # a una vista se le puede enviar diferentes tipos de datos como: strings, listas
 @app.route('/')
-@app.route('/index')
+#@app.route('/index')
 def index():
+    print(url_for('index'))
+    print(url_for('animales'))
+    print(url_for('animales', nombre='Jack'))
+    print(url_for('animales', nombre='Jack', edad=20))
+    print(url_for('code',code='print("Hola")'))
     name = 'Jenny'
     friends = ['Nelson','Cristoper','Kevin','Michelle']
     date = datetime.now()
