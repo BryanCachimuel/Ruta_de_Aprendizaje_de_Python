@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from datetime import datetime
 
 # cuando se pone __name__ estanis diciendo que está es nuestra aplicación de flask
@@ -84,6 +84,20 @@ from markupsafe import escape
 @app.route('/code/<path:code>')
 def code(code):
     return f'<code>{escape(code)}</code>'
+
+# Registrar Usuario
+# definimos que vamos a usar dos tipos de métodos
+# GET -> para renderizar a la vista regiter
+# POST -> para procesar los datos que se envien por el formulario
+# importamos request para capturar las información del cliente que envié por el formulario
+@app.route('/auth/register', methods = ['GET','POST'])
+def register():
+    # se capturan los datos
+    if request.method == 'POST': 
+        username = request.form['username']
+        password = request.form['password']
+        return f"Nombre de usuario: {username}, Contraseña: {password}"
+    return render_template('auth/register.html')
 
 # para que los errores se puedan ver en el navegador se pone en formato debug cuando se manda a ejecutar el proyecto
 # flask --app hello --debug run 
