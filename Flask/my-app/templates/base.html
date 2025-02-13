@@ -7,6 +7,14 @@
     <title>Mi Sitio Web - {% block title %}{% endblock %}</title>
   </head>
   <body>
+    <nav>
+      <ul>
+        <!-- manda a llamar a todas los urñs que hemos creado en hello.py mediante el uso de url_for y con ello se puede navegar entre plantillas -->
+        <li><a href="{{ url_for('index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('animales') }}">Animales</a></li>
+        <li><a href="{{ url_for('code', code='print(code)') }}">Code</a></li>
+      </ul>
+    </nav>
     <!-- se crea otro bloque de contenido -->
     {% block content %} {% endblock %}
   </body>
