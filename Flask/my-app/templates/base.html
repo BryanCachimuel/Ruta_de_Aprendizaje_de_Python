@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- creando un bloque de contenido mediante el uso de: -->
     <title>Mi Sitio Web - {% block title %}{% endblock %}</title>
+    <!-- se crea una ruta para cargar el archivo estático style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
   <body>
     <nav>
@@ -17,5 +19,7 @@
     </nav>
     <!-- se crea otro bloque de contenido -->
     {% block content %} {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
 </html>
