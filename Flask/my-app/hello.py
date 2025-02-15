@@ -96,7 +96,14 @@ def register():
     if request.method == 'POST': 
         username = request.form['username']
         password = request.form['password']
-        return f"Nombre de usuario: {username}, Contraseña: {password}"
+
+        if len(username) >= 4 and len(username) <= 25 and len(password) >= 6 and len(password) <= 40:
+            return f"Nombre de usuario: {username}, Contraseña: {password}"
+        else: 
+            error = """Nombre de usuario debe tener entre 4 a 25 caracteres y
+            la contraseña debe tener entre 6 a 40 caracteres
+            """
+            return render_template('auth/register.html', error = error)
     return render_template('auth/register.html')
 
 # para que los errores se puedan ver en el navegador se pone en formato debug cuando se manda a ejecutar el proyecto
