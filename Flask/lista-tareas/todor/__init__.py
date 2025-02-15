@@ -1,0 +1,19 @@
+from flask import Flask
+
+# 1. esta función se crea para realizar instancias de la aplicación
+# está instancia puede servir cuando se hace una conexión hacia la base de datos
+# o cuando se hace una instancia para testear al aplicación
+def create_app():
+    app = Flask(__name__)
+
+    # 2. Configuración del proyecto
+    app.config.from_mapping(
+        DEBUG = True,
+        SECRET_KEY = 'dev'
+    )
+
+    @app.route('/')
+    def index():
+        return 'Hola desde la lista de tareas'
+
+    return app
