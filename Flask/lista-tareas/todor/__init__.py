@@ -12,6 +12,14 @@ def create_app():
         SECRET_KEY = 'dev'
     )
 
+    # registrar Blueprint de todo
+    from . import todo
+    app.register_blueprint(todo.bp)
+
+   # registrar Blueprint de auth
+    from . import auth
+    app.register_blueprint(auth.bp)
+
     @app.route('/')
     def index():
         return 'Hola desde la lista de tareas'
