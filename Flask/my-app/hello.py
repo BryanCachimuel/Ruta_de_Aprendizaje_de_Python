@@ -4,6 +4,11 @@ from datetime import datetime
 # cuando se pone __name__ estanis diciendo que está es nuestra aplicación de flask
 app = Flask(__name__)
 
+# cuando se trabaja con formularios o sesiones se debe agregar una clave secreta
+app.config.from_mapping(
+    SECRET_KEY = 'dev'
+)
+
 # se pueden aplicar fitros personalizados
 # para que esto quede registrados en los filtros de flask o Jinja2 se debe aplicar el decorador @app.add_template_filter
 # estos filtros se van a poder utilizar en toda la aplicación
@@ -85,6 +90,16 @@ from markupsafe import escape
 def code(code):
     return f'<code>{escape(code)}</code>'
 
+
+# Crear formulario con wtform
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+
+class RegisterForm(FlaskForm):
+    username = StringField("Nombre de Usuario: ")
+    password = PasswordField("Password: ")
+    submit = SubmitField("Registrar")
+
 # Registrar Usuario
 # definimos que vamos a usar dos tipos de métodos
 # GET -> para renderizar a la vista regiter
@@ -92,19 +107,32 @@ def code(code):
 # importamos request para capturar las información del cliente que envié por el formulario
 @app.route('/auth/register', methods = ['GET','POST'])
 def register():
+    # instancia de la clase RegisterForm
+    form = RegisterForm()
     # se capturan los datos
     if request.method == 'POST': 
-        username = request.form['username']
-        password = request.form['password']
+       
 
+        # valida los datos que se ingresen y también valida los datos en el método POST
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+
+            return f"Nombre de usuario: {username}, Contraseña: {password}"
+
+        '''
+            username = request.form['username']
+            password = request.form['password']
         if len(username) >= 4 and len(username) <= 25 and len(password) >= 6 and len(password) <= 40:
             return f"Nombre de usuario: {username}, Contraseña: {password}"
         else: 
             error = """Nombre de usuario debe tener entre 4 a 25 caracteres y
             la contraseña debe tener entre 6 a 40 caracteres
             """
-            return render_template('auth/register.html', error = error)
-    return render_template('auth/register.html')
+            return render_template('auth/register.html', form = form, error = error)
+        '''
+
+    return render_template('auth/register.html', form = form)
 
 # para que los errores se puedan ver en el navegador se pone en formato debug cuando se manda a ejecutar el proyecto
 # flask --app hello --debug run 
