@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 # 1. esta función se crea para realizar instancias de la aplicación
 # está instancia puede servir cuando se hace una conexión hacia la base de datos
@@ -22,6 +22,6 @@ def create_app():
 
     @app.route('/')
     def index():
-        return 'Hola desde la lista de tareas'
+        return render_template('index.html')
 
     return app
