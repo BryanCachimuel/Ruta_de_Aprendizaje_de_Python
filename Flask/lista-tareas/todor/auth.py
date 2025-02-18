@@ -1,4 +1,13 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask import (
+                    Blueprint, 
+                    render_template, 
+                    request, 
+                    url_for, 
+                    redirect, 
+                    flash,
+                    session,
+                    g
+                   )
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # importando la base de datos
@@ -32,6 +41,29 @@ def register():
         flash(error)
     return render_template('auth/register.html')
 
-@bp.route('/login')
+@bp.route('/login', methods = ('GET', 'POST'))
 def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        error = None
+        
+        # validar datos
+        user = User.query.filter_by(username = username).first()
+        
+        if user == None:
+            error = 'Nombre de Usuario Incorrecto'
+        elif not check_password_hash(user.password, password):
+            error = 'Contraseña Incorrecta'
+        
+        # Iniciar Sesión
+        # si no existe un error
+        if error is None:
+            session.clear()
+            session['user_id'] = user.id
+            return redirect(url_for('todo.index'))
+        
+        # proceso para mostrar un mensaje de error en la vista
+        flash(error)
     return render_template('auth/login.html')
