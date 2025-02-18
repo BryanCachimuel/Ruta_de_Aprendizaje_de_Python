@@ -67,3 +67,14 @@ def login():
         # proceso para mostrar un mensaje de error en la vista
         flash(error)
     return render_template('auth/login.html')
+
+# Mantener la sesión iniciada
+# con este decorador se dice que esta registrando está función se ejecute en cada petición
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = User.query.get_or_404(user_id)
