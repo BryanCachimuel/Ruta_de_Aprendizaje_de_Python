@@ -20,7 +20,7 @@ class User(db.Model):
 # el nombre de esta clase representa a la tabla en la base de datos
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key  = True)
-    created_by = db.Colmn(db.Integer, db.ForeignKey('user.id'), nullable = False)  # agregando una relación de uno a muchos entre las tablas user y todo
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)  # agregando una relación de uno a muchos entre las tablas user y todo
     title = db.Column(db.String(100), nullable =  False)
     description = db.Column(db.Text)
     state = db.Column(db.Boolean, default = False)
