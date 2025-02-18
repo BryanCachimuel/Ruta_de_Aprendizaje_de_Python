@@ -15,6 +15,8 @@ def register():
         password = request.form['password']
 
         user = User(username, generate_password_hash(password))
+
+        error = None
         
         # buscamos que existen coincidencias entre los nombres de usuarios en la base de datos con el nombre que se va a ingresar por el formulario
         user_name = User.query.filter_by(username = username).first()
@@ -23,6 +25,11 @@ def register():
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('auth.login'))
+        else:
+            error = f'El usuario {username} ya está registrado'
+        
+        # proceso para mostrar un mensaje de error en la vista
+        flash(error)
     return render_template('auth/register.html')
 
 @bp.route('/login')
