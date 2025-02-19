@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, g
 
 from todor.auth import login_required
 
@@ -18,7 +18,16 @@ def index():
     todos = Todo.query.all()
     return render_template('todo/index.html', todos = todos)
 
-@bp.route('/create')
+@bp.route('/create', methods=('GET','POST'))
 @login_required
 def create():
-    return "Crear una tarea"
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+
+        todo = Todo(g.user.id, title, description)
+
+        db.session.add(todo)
+        db.session.commit()
+        return redirect(url_for('todo.index'))
+    return render_template('todo/create.html')
