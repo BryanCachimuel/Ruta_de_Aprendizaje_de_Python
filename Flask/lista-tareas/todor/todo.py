@@ -48,3 +48,12 @@ def update(id):
         db.session.commit()
         return redirect(url_for('todo.index'))
     return render_template('todo/update.html', todo = todo)
+
+# función para eliminar una tarea
+@bp.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    todo = get_todo(id)
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('todo.index'))
