@@ -10,6 +10,9 @@ from flask import (
                    )
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# librería para que se requiera iniciar sesión en las rutas
+import functools
+
 # importando la base de datos
 from .models import User
 
@@ -84,3 +87,13 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+# función para poder controlar que se requiera autorización para ingresar a determinadas vistas si no esta logeado un usuario
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        # si no esta logeado un usuario e intenta ingresar a las vistas restringidas se redireccionara a la vista de login
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrapped_view
