@@ -5,7 +5,7 @@
 <section class="container-fluid">
     <div class="navbar">
         <h1>{% block title %} Lista de Tareas {% endblock %}</h1>
-        <a href="" class="btn btn-success">Nueva Tarea</a>
+        <a href="{{ url_for('todo.create') }}" class="btn btn-success">Nueva Tarea</a>
     </div>
 
     <table class="table">
