@@ -13,7 +13,7 @@ class Contact(db.Model):
     phone = db.Column(db.String(10), nullable=False)
 
     # método para serializar los datos
-    def serializable(self):
+    def serialize(self):
         return {
             'id': self.id,
             'name': self.name,
@@ -38,4 +38,11 @@ def get_contacts():
 
 @app.route('/contacts', methods = ['POST'])
 def create_contact():
-    return 'Crear Contacto'
+    # obteniendo los datos del json
+    data = request.get_json()
+    contact = Contact(name = data['name'], email = data['email'], phone = data['phone'])
+    db.session.add(contact)
+    db.session.commit()
+
+    # se pone al final 201 ya significa status de creación
+    return jsonify({'message':'Contacto creado con exito', 'contact':contact.serialize()}), 201
