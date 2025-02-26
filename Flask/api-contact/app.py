@@ -24,3 +24,18 @@ class Contact(db.Model):
 # Migrar las tablas hacia la base de datos
 with app.app_context():
     db.create_all()
+
+# Crear Rutas
+@app.route('/contacts', methods = ['GET'])
+def get_contacts():
+    contacts = Contact.query.all()
+    list_contact = []
+    for contact in contacts:
+        list_contact.append(contact.serialize())
+    return jsonify({'contacts':list_contact})
+    # todo el for de arriba puede ser sustituido por el linea de abajo de este comentario
+    #return jsonify({'contacts': [contact.serialize() for contact in contacts]})
+
+@app.route('/contacts', methods = ['POST'])
+def create_contact():
+    return 'Crear Contacto'
