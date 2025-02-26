@@ -46,3 +46,10 @@ def create_contact():
 
     # se pone al final 201 ya significa status de creación
     return jsonify({'message':'Contacto creado con exito', 'contact':contact.serialize()}), 201
+
+@app.route('/contacts/<int:id>', methods = ['GET'])
+def get_contacts_id(id):
+    contact = Contact.query.get(id)
+    if not contact:
+        return jsonify({'message':'Contacto no encontrado'}), 404
+    return jsonify(contact.serialize())
