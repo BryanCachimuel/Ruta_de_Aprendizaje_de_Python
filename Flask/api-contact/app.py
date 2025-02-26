@@ -53,3 +53,19 @@ def get_contacts_id(id):
     if not contact:
         return jsonify({'message':'Contacto no encontrado'}), 404
     return jsonify(contact.serialize())
+
+@app.route('/contacts/<int:id>', methods = ['PUT', 'PATCH'])
+def update_contacts(id):
+    contact = Contact.query.get_or_404(id)
+    
+    data = request.get_json()
+
+    if 'name' in data and 'email' in data and 'phone' in data:
+        contact.name = data['name']
+        contact.email = data['email']
+        contact.phone = data['phone']
+
+    # guardar los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({'message':'Contacto actualizado con exito', 'contact':contact.serialize()})
