@@ -1,6 +1,19 @@
 from flask import Flask, render_template
 
+from flask_mail import Mail, Message
+
 app = Flask(__name__)
+
+# Configuración de mailtrap
+app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = 'db4fd746c16b1f'
+app.config['MAIL_PASSWORD'] = '8b9d7b31f63c95'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+# instancia de la clase Mail
+mail = Mail(app)
 
 @app.route('/')
 def index():
