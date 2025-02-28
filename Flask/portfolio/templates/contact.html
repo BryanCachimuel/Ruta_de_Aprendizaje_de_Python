@@ -13,7 +13,7 @@
             </div>
 
             <div class="col-md-10 mx-auto col-lg-6">
-                <form class="p-4 p-md-5 border rounded-3 bg-white" method="post">
+                <form class="p-4 p-md-5 border rounded-3 bg-white" method="post" action="{{ url_for('send_mail') }}">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre completo</label>
                         <input type="text" class="form-control" id="name" name="name" required>
