@@ -1,0 +1,9 @@
+.social-icon {
+    color: #ccc;
+    margin: 0 5px;
+    font-size: 30px;
+}
+
+.social-icon:hover{
+    color: #fff;
+}
