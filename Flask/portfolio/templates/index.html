@@ -3,5 +3,20 @@
 {% block title %} Bienvenido {% endblock %} 
 
 {% block content %}
-<h1>Página de Portafolio</h1>
+
+<!-- Incluyendo menú de navegación -->
+ {% include 'navbar.html' %}
+
+ <!-- Incluir la bienvenida -->
+  {% include 'home.html' %}
+
+  <!-- Incluir sección de proyectos -->
+ {% include 'portfolio.html' %}
+
+ <!-- Incluir sección del conatacto -->
+ {% include 'contact.html' %}
+
+ <!-- Incluir sección del footer -->
+ {% include 'footer.html' %}
+
 {% endblock %}
