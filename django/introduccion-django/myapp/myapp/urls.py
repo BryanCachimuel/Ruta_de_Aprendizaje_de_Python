@@ -16,12 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
-
-def saludar(request):
-    return HttpResponse('Hola te envión saludos desde Django')
+from . import views
 
 urlpatterns = [
-    path('saludo/', saludar),
+    path('saludo/', views.saludar),
     path('admin/', admin.site.urls),
 ]
