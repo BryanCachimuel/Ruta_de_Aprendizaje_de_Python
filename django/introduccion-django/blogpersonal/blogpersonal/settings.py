@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Mis aplicaciones
+    'core.apps.CoreConfig',
+    'blog.apps.BlogConfig',
+    'perfil.apps.PerfilConfig',
+    # Aplicaciones Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
