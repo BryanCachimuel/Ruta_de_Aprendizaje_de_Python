@@ -6,7 +6,7 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 # verbose_name sirve para traducir los nombres de los campos para que se vean en español en el panel de administración
 class Post(models.Model):
-    image = models.ImageField(verbose_name='Imagen')
+    image = models.ImageField(verbose_name='Imagen', upload_to='blog')
     title = models.CharField(max_length=200, verbose_name='Título')
     description = models.TextField(verbose_name='Descripción')
     content = RichTextField(verbose_name='Contenido')
