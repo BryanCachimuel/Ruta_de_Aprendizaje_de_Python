@@ -7,102 +7,28 @@
     <section class="news">
         <div class="news-content">
             <h3>Noticias</h3>
-            <img src="{% static 'img/pc-img.jpg' %}" alt="img de blog">
+            <img src="{{ first_post.image.url }}" alt="img de blog">
             <div class="news-info">
-                <h2>Título del Blog</h2>
+                <h2>{{ first_post.title }}</h2>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Officiis repellat
-                    commodi dignissimos, saepe culpa
-                    pariatur atque fuga, facere dolore
-                    laboriosam harum fugit, labore numquam
-                    voluptas esse laborum debitis unde
-                    cupiditate.
+                    {{ first_post.description }}
                 </p>
-                <a class="blogs-btn" href="blog.html">Leer más</a>
+                <a class="blogs-btn" href="{% url 'post' 5 %}">Leer más</a>
             </div>
         </div>
     </section>
     <section class="posts">
         <h3>Últimos Blogspost</h3>
+        {% for post in posts %}
         <div class="posts-blog">
-            <img src="{% static 'img/post-1.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
+            <img src="{{ post.image.url }}" alt="">
+            <h4>{{ post.title }}</h4>
             <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
+                {{ post.description }}
             </p>
             <a class="blogs-btn" href="blog.html">Leer más</a>
         </div>
-        <div class="posts-blog">
-            <img src="{% static 'img/post-2.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
-            <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
-            </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
-        </div>
-        <div class="posts-blog">
-            <img src="{% static 'img/post-3.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
-            <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
-            </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
-        </div>
-        <div class="posts-blog">
-            <img src="{% static 'img/post-1.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
-            <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
-            </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
-        </div>
-        <div class="posts-blog">
-            <img src="{% static 'img/post-2.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
-            <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
-            </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
-        </div>
-        <div class="posts-blog">
-            <img src="{% static 'img/post-3.png' %}" alt="">
-            <h4>Título del Blogspost</h4>
-            <p>
-                Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Repellat maxime vero 
-                vitae eos necessitatibus reiciendis 
-                soluta laborum rerum tempora velit, 
-                a cum distinctio doloremque natus 
-                non nobis. Sed, a ut.
-            </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
-        </div>
+        {% endfor %}
     </section>
 </main>
 {% endblock %}
