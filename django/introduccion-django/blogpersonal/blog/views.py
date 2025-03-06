@@ -10,6 +10,5 @@ def posts(request):
     return render(request, 'blogs.html', {'posts':posts, 'first_post': first_post})
 
 def post(request, id):
-    blog = Post.objects.get(id=id)
-    content = f'{blog.title} - {blog.description}'
-    return render(request, 'blog.html')
+    post = Post.objects.get(id=id)
+    return render(request, 'blog.html', {'post':post})
