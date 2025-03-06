@@ -17,22 +17,22 @@
     <header class="header">
       <div class="social">
         <div class="social-icons">
-          <a href=""><i class="fab fa-facebook"></i></a>
-          <a href=""><i class="fab fa-youtube"></i></a>
-          <a href=""><i class="fab fa-twitter"></i></a>
-          <a href=""><i class="fab fa-instagram"></i></a>
-          <a href=""><i class="fab fa-github"></i></a>
+          <a target="_blank" href=""><i class="fab fa-facebook"></i></a>
+          <a target="_blank" href=""><i class="fab fa-youtube"></i></a>
+          <a target="_blank" href=""><i class="fab fa-twitter"></i></a>
+          <a target="_blank" href=""><i class="fab fa-instagram"></i></a>
+          <a target="_blank" href=""><i class="fab fa-github"></i></a>
         </div>
       </div>
 
       <nav class="nav">
         <div class="nav-logo">
-          <a href="index.html">
+          <a href="{% url 'home' %}">
             <img src="{% static 'img/logo.png' %}" alt="Logo de la Pagina" />
           </a>
         </div>
         <div class="nav-link">
-          <a href="profile.html">Sobre mí</a>
+          <a href="{% url 'profile' %}">Sobre mí</a>
         </div>
       </nav>
     </header>
@@ -44,14 +44,14 @@
     {% block contact %}
     <section class="section-contact">
         <div class="contact">
-            <img src="img/013-newsletter.png" alt="">
+            <img src="{% static 'img/013-newsletter.png' %}" alt="">
             <div class="contact-info">
                 <a href="">Contacto</a>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         <div class="contact">
-            <img src="img/006-like.png" alt="">
+            <img src="{% static 'img/006-like.png' %}" alt="">
             <div class="contact-info">
                 <a href="">Escribe</a>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
