@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}  Mis Blogs {% endblock %}
+
 {% load static %}
 
 {% block content %}
@@ -13,7 +15,7 @@
                 <p>
                     {{ first_post.description }}
                 </p>
-                <a class="blogs-btn" href="{% url 'post' 5 %}">Leer más</a>
+                <a class="blogs-btn" href="{% url 'post' first_post.id %}">Leer más</a>
             </div>
         </div>
     </section>
@@ -26,7 +28,7 @@
             <p>
                 {{ post.description }}
             </p>
-            <a class="blogs-btn" href="blog.html">Leer más</a>
+            <a class="blogs-btn" href="{% url 'post' post.id %}">Leer más</a>
         </div>
         {% endfor %}
     </section>
