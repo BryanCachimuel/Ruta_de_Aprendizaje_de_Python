@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -27,6 +27,21 @@ with app.app_context():
 @app.route('/')
 def home():
     return 'Hola, Flask'
+
+@app.route('/articles')
+def list_articles():
+    articles = Article.query.all()
+    
+    html = '''
+        <h1>Lista de Artículos</h1>
+        <ul>
+            {% for article in articles %}
+                <li>{{article.title}} - {{article.content}}</li>
+            {% endfor%}
+        </ul>
+    '''
+
+    return render_template_string(html, articles=articles)
 
 @app.route('/create-article', methods=['GET','POST'])
 def create_article():
