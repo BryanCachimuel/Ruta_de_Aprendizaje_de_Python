@@ -39,33 +39,20 @@ def list_articles():
     } for article in articles ])
     
 
-@app.route('/create-article', methods=['GET','POST'])
+@app.route('/create-article', methods=['POST'])
 def create_article():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-    
-        new_article = Article(title=title, content=content)
+    data = request.get_json()
+    new_article = Article(title=data['title'], content=data['content'])
+    db.session.add(new_article)
+    db.session.commit()
 
-        # guardando en la base de datos
-        db.session.add(new_article)
-        db.session.commit()
+    return jsonify({
+        'id': new_article.id,
+        'title': new_article.title,
+        'content': new_article.content
+    }), 201
 
-        return f'Artículo creado {new_article}, title {new_article.title}'
-    
-    return '''
-        <form method="POST" action="create-article">
-            <label for="title">Título del artículo: </label><br/>
-            <input type="text" id="title" name="title"/><br/><br>
-
-            <label for="content">Contenido del artículo:</label><br/>
-            <textarea name="content" id="content"></textarea><br/><br>
-
-            <input type="submit" value="Crear Artículo"/>
-        </form>
-'''
-
-    return 'Aqui podemos crear un artículo'
+       
 
 @app.route('/article/<int:article_id>')
 def view_article(article_id):
