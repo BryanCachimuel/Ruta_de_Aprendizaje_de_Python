@@ -61,16 +61,21 @@ def update_article(id):
     db.session.commit()
 
     return jsonify({
-         'id': article.id,
-         'title': article.title,
-         'content': article.content
+        'id': article.id,
+        'title': article.title,
+        'content': article.content
     })
 
        
 @app.route('/article/<int:article_id>')
 def view_article(article_id):
     article = Article.query.get_or_404(article_id)
-    return f'Estas viendo el artículo {article.title} con su contenido: {article.content}'
+    
+    return jsonify({
+        'id': article.id,
+        'title': article.title,
+        'content': article.content
+    })
 
 if __name__ == '__main':
     app.run(debug=True)
