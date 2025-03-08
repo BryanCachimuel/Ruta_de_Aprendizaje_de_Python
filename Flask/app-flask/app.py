@@ -52,8 +52,21 @@ def create_article():
         'content': new_article.content
     }), 201
 
-       
+@app.route('/articles/<int:id>', methods=['PUT','PATCH'])
+def update_article(id):
+    article = Article.query.get_or_404(id)
+    data = request.get_json()
+    article.title = data['title']
+    article.content = data['content']
+    db.session.commit()
 
+    return jsonify({
+         'id': article.id,
+         'title': article.title,
+         'content': article.content
+    })
+
+       
 @app.route('/article/<int:article_id>')
 def view_article(article_id):
     article = Article.query.get_or_404(article_id)
