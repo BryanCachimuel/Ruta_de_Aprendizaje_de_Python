@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+
 # configuración de sqlite3
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///articulos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 db = SQLAlchemy(app)
 
@@ -19,6 +21,8 @@ class Article(db.Model):
     def __repr__(self):
         return f'<Article: {self.title}>'
 
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
@@ -29,7 +33,14 @@ def create_article():
     if request.method == 'POST':
         title = request.form.get('title')
         content = request.form.get('content')
-        return f'Artículo creado: {title}, Contenido: {content}'
+    
+        new_article = Article(title=title, content=content)
+
+        # guardando en la base de datos
+        db.session.add(new_article)
+        db.session.commit()
+
+        return f'Artículo creado {new_article}, title {new_article.title}'
     
     return '''
         <form method="POST" action="create-article">
