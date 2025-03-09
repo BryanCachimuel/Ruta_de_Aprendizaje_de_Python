@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from models.article import db, Article
+from models import db
+from models.article import Article
 from models.user import User
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def home():
 @app.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
-    if User.query.filter_by(email = data['email'].first() is not None):
+    if User.query.filter_by(email = data['email']).first()  is not None:
         return jsonify({
             'error':'El email ya está registrado'
         }), 400
