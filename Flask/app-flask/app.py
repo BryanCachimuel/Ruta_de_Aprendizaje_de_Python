@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from models.article import db, Article
 
 app = Flask(__name__)
 
@@ -8,18 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///articulos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
-db = SQLAlchemy(app)
-
-# Modelo de Artículo
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-
-    # se imprime por consola el titulo del artículo
-    def __repr__(self):
-        return f'<Article: {self.title}>'
+db.init_app(app)
 
 with app.app_context():
     db.create_all()
@@ -41,7 +30,7 @@ def list_articles():
     } for article in articles ])
     
 # Crear un artículo
-@app.route('/create-article', methods=['POST'])
+@app.route('/article', methods=['POST'])
 def create_article():
     data = request.get_json()
     new_article = Article(title=data['title'], content=data['content'])
@@ -76,11 +65,11 @@ def  delete_article(id):
     db.session.delete(article)
     db.session.commit()
     return jsonify({
-        'message':f'Articulo {id} eliminado con exito'
+        'message':f'Articulo eliminado con exito. Se elimino {article.title}'
     }), 200
        
 #Obtener un artículo por id
-@app.route('/article/<int:article_id>')
+@app.route('/article/<int:article_id>', methods=['GET'])
 def view_article(article_id):
     article = Article.query.get_or_404(article_id)
 
