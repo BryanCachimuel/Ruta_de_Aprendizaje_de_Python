@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from models.article import db, Article
+from models.user import User
 
 app = Flask(__name__)
 
@@ -17,6 +18,24 @@ with app.app_context():
 @app.route('/')
 def home():
     return 'Hola, Flask'
+
+# endpoinst para user
+@app.route('/register', methods=['POST']):
+def register_user():
+    data = request.get_json()
+    if User.query.filter_by(email = data['email'].first() is not None):
+        return jsonify({
+            'error':'El email ya está registrado'
+        }), 400
+
+    new_user = User(username=data['username'], email=data['email'])
+    new_user.set_password(data['password'])
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({
+        'message': f'Usuario: {new_user.username} registrado con exito'
+    }), 201
 
 # Obtener todos los artículos
 @app.route('/articles', methods=['GET'])
