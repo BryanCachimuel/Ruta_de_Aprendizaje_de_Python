@@ -20,7 +20,9 @@ def home():
     return 'Hola, Flask'
 
 # endpoinst para user
-@app.route('/register', methods=['POST']):
+
+# registro de un usuario
+@app.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
     if User.query.filter_by(email = data['email'].first() is not None):
@@ -36,6 +38,20 @@ def register_user():
     return jsonify({
         'message': f'Usuario: {new_user.username} registrado con exito'
     }), 201
+
+# Inicio de sesión de un Usuario
+@app.route('/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    user = User.query.filter_by(email=data['email']).first()
+    if user is None or not user.check_password(data['password']):
+        return jsonify({
+            'error': 'Credenciales Invalidas'
+        })
+    
+    return jsonify({
+        'message': f'Bienvenido {user.username}'
+    })
 
 # Obtener todos los artículos
 @app.route('/articles', methods=['GET'])
