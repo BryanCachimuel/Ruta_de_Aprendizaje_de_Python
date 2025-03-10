@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 from models import db
 from models.article import Article
 from models.user import User
+from flask_cors import CORS
 
 app = Flask(__name__)
 
+CORS(app)
 
 # configuración de sqlite3
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///articulos.db'
