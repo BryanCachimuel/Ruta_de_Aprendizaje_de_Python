@@ -1,5 +1,6 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import Link from "next/link";
 import Layout from "./components/Layout";
 
 interface Article {
@@ -34,7 +35,9 @@ export default function Home() {
                   <div key={article.id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <h2 className="text-2xl font-bold text-indigo-600 mb-2">{article.title}</h2>
                     <p>{article.content.slice(0, 100)}...</p>
-                    <a href="{`/article/${article.id}`}" className="text-indigo-600 font-semibold hover:text-indigo-400">Leer más</a>
+                    <Link href={`/article/${article.id}`}>
+                      <span className="text-indigo-600 font-semibold hover:text-indigo-400">Leer Más</span>
+                    </Link>
                   </div>
                 ))
               }
