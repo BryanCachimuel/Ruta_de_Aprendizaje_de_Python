@@ -1,6 +1,6 @@
-'use-client'
+'use client'
 import Layout from "@/app/components/Layout";
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 
 
 interface Article {
