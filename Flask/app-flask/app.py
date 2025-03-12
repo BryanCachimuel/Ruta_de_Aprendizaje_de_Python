@@ -64,21 +64,27 @@ def list_articles():
     return jsonify([{
         'id': article.id,
         'title': article.title,
-        'content': article.content
+        'content': article.content,
+        'image_url': article.image_url
     } for article in articles ])
     
 # Crear un artículo
 @app.route('/article', methods=['POST'])
 def create_article():
     data = request.get_json()
-    new_article = Article(title=data['title'], content=data['content'])
+    new_article = Article(
+        title=data['title'], 
+        content=data['content'],
+        image_url=data['image_url']
+        )
     db.session.add(new_article)
     db.session.commit()
 
     return jsonify({
         'id': new_article.id,
         'title': new_article.title,
-        'content': new_article.content
+        'content': new_article.content,
+        'image_url': new_article.image_url
     }), 201
 
 # Actualizar un artículo
@@ -114,7 +120,8 @@ def view_article(article_id):
     return jsonify({
         'id': article.id,
         'title': article.title,
-        'content': article.content
+        'content': article.content,
+        'image_url': article.image_url
     })
 
 if __name__ == '__main':
