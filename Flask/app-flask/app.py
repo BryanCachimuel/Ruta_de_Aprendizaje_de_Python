@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, supports_credentials=True)
 
 # configuración de sesiones
 app.secret_key = 'python123'
@@ -51,7 +51,7 @@ def login_user():
     data = request.get_json()
     user = User.query.filter_by(email=data['email']).first()
    
-    if user and user.check_password(data=['password']):
+    if user and user.check_password(data['password']):
         session['user_id'] = user.id
         return jsonify({'message': 'Inicio de sesión exitoso'}), 200
     else:
@@ -65,7 +65,7 @@ def check_auth():
     else:
         return jsonify({'authenticated': False}), 401
     
-@app.route('logout', methods=['POST'])
+@app.route('/logout', methods=['POST'])
 def logout_user():
     session.pop('user_id', None)
     return jsonify({'message':'Sesión cerrada con éxito'})
