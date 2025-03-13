@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faPlusCircle, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/check-auth')
+        const data = await response.json()
+        setIsAuthenticated(data.isAuthenticated())
+      } catch (error) {
+        console.log('Error al verificar la autenticación', error)
+      }
+    }
+    checkAuth()
+  }, [])
+  
+
   return (
     <nav className='bg-indigo-600 text-white p-4'>
        <div className="container mx-auto flex justify-between items-center">
@@ -20,18 +38,25 @@ const Navbar = () => {
         </div>
 
             <ul className='flex space-x-6 items-center'>
-              <li>
-                <a href="/create" className='flex items-center hover:text-gray-300'>
+
+            {
+              isAuthenticated && (
+                <li>
+                <Link href="/create" className='flex items-center hover:text-gray-300'>
                    <FontAwesomeIcon icon={faPlusCircle} className='mr-2 h-6 w-6'/>
                    Crear Artículo
-                </a>
+                </Link>
               </li>
+              )
+            }
+
+             
 
               <li>
-                <a href="/login" className='flex items-center hover:text-gray-300'>
+                <Link href="/page/login" className='flex items-center hover:text-gray-300'>
                    <FontAwesomeIcon icon={faSignInAlt} className='mr-2 h-6 w-6'/>
                    Iniciar Sesión
-                </a>
+                </Link>
               </li>
 
             </ul>
