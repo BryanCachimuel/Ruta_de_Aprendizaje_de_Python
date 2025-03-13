@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from models import db
 from models.article import Article
 from models.user import User
@@ -7,6 +7,9 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 CORS(app)
+
+# configuración de sesiones
+app.secret_key = 'python123'
 
 # configuración de sqlite3
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///articulos.db'
@@ -47,14 +50,25 @@ def register_user():
 def login_user():
     data = request.get_json()
     user = User.query.filter_by(email=data['email']).first()
-    if user is None or not user.check_password(data['password']):
-        return jsonify({
-            'error': 'Credenciales Invalidas'
-        })
+   
+    if user and user.check_password(data=['password']):
+        session['user_id'] = user.id
+        return jsonify({'message': 'Inicio de sesión exitoso'}), 200
+    else:
+        return jsonify({'message': 'Credenciales invalidas'}), 401
+
+# ruta para verificar si un usuario está autenticado
+@app.route('/check-auth', methods=['GET'])
+def check_auth():
+    if 'user_id' in session:
+        return jsonify({'authenticated': True}), 200
+    else:
+        return jsonify({'authenticated': False}), 401
     
-    return jsonify({
-        'message': f'Bienvenido {user.username}'
-    })
+@app.route('logout', methods=['POST'])
+def logout_user():
+    session.pop('user_id', None)
+    return jsonify({'message':'Sesión cerrada con éxito'})
 
 # Obtener todos los artículos
 @app.route('/articles', methods=['GET'])
