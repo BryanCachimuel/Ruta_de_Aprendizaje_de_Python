@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect} from "react";
-import Link from "next/link";
 import Layout from "./components/Layout";
 import Card from "./components/Card";
 
@@ -8,6 +7,7 @@ interface Article {
   id: number;
   title: string;
   content: string;
+  image_url: string;
 }
 
 export default function Home() {
@@ -38,6 +38,7 @@ export default function Home() {
                   id={article.id}
                   title={article.title}
                   content={article.content}
+                  image_url={article.image_url}
                  />
                 ))
               }

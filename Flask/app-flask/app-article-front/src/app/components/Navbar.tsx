@@ -10,9 +10,12 @@ const Navbar = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/check-auth')
+        const response = await fetch('http://localhost:5000/check-auth', {
+          method: 'GET',
+          credentials: 'include'
+        })
         const data = await response.json()
-        setIsAuthenticated(data.isAuthenticated())
+        setIsAuthenticated(data.authenticated)
       } catch (error) {
         console.log('Error al verificar la autenticación', error)
       }
