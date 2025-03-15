@@ -6,7 +6,12 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True)
+CORS(app, 
+         supports_credentials=True,
+         origins=['http://localhost:3000'],
+         allow_headers=["Content-Type"],
+         expose_headers=["Set-Cookie"],
+         methods=["GET","POST","OPTIONS"])
 
 # configuración de sesiones
 app.secret_key = 'python123'
@@ -81,7 +86,8 @@ def list_articles():
         'title': article.title,
         'content': article.content,
         'image_url': article.image_url,
-        'author': article.author.username
+        'author': article.author.username,
+        'created_at': article.created_at.strftime('%d-%m-%Y')
     } for article in articles ])
     
 # Crear un artículo
@@ -93,7 +99,7 @@ def create_article():
         title=data['title'], 
         content=data['content'],
         image_url=data['image_url'],
-        user_id = user_id
+        user_id = user_id,
         )
     db.session.add(new_article)
     db.session.commit()
