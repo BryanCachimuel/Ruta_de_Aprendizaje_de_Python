@@ -53,6 +53,7 @@ def login_user():
    
     if user and user.check_password(data['password']):
         session['user_id'] = user.id
+        print(session)
         return jsonify({'message': 'Inicio de sesión exitoso'}), 200
     else:
         return jsonify({'message': 'Credenciales invalidas'}), 401
@@ -79,17 +80,20 @@ def list_articles():
         'id': article.id,
         'title': article.title,
         'content': article.content,
-        'image_url': article.image_url
+        'image_url': article.image_url,
+        'author': article.author.username
     } for article in articles ])
     
 # Crear un artículo
 @app.route('/article', methods=['POST'])
 def create_article():
     data = request.get_json()
+    user_id = session.get('user_id')
     new_article = Article(
         title=data['title'], 
         content=data['content'],
-        image_url=data['image_url']
+        image_url=data['image_url'],
+        user_id = user_id
         )
     db.session.add(new_article)
     db.session.commit()
@@ -98,7 +102,8 @@ def create_article():
         'id': new_article.id,
         'title': new_article.title,
         'content': new_article.content,
-        'image_url': new_article.image_url
+        'image_url': new_article.image_url,
+        'author': new_article.author.username
     }), 201
 
 # Actualizar un artículo
