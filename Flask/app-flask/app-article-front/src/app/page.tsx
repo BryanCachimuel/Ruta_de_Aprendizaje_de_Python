@@ -8,6 +8,8 @@ interface Article {
   title: string;
   content: string;
   image_url: string;
+  author: string;
+  created_at: string;
 }
 
 export default function Home() {
@@ -17,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     
-    fetch('http://127.0.0.1:5000/articles')
+    fetch('http://localhost:5000/articles')
     .then(response => response.json())
     .then(data => setArticles(data))
     .catch(error => console.log('Error al obtener los artículos: ', error))
@@ -39,6 +41,8 @@ export default function Home() {
                   title={article.title}
                   content={article.content}
                   image_url={article.image_url}
+                  author={article.author}
+                  created_at={article.created_at}
                  />
                 ))
               }
