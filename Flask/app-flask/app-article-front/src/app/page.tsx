@@ -15,6 +15,7 @@ interface Article {
 export default function Home() {
 
   const [articles, setArticles] = useState<Article[]>([])
+  const [filteredArticles, setFilteredArticles] = useState<Article[]>([])
   console.log(articles)
 
   useEffect(() => {
@@ -29,12 +30,12 @@ export default function Home() {
 
   return (
     <>
-      <Layout>
+      <Layout articles={articles} setFilteredArticles={setFilteredArticles}>
         <div className="container mx-auto py-10">
           <h1 className="text-4xl font-bold text-center mb-6 text-indigo-600">Últimos Artículos</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {
-                articles.map((article) => (
+                filteredArticles.map((article) => (
                  <Card
                   key={article.id}
                   id={article.id}
