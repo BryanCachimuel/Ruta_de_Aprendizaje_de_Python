@@ -5,6 +5,7 @@ export interface Article {
   image_url: string;
   author: string;
   created_at: string;
+  isFavorite: boolean;
 }
 
 export interface CardProps {
@@ -13,5 +14,7 @@ export interface CardProps {
     content: string;
     image_url: string;
     author: string;
-    created_at: string
+    created_at: string;
+    isFavorite: boolean;
+    toggleFavorite: (id: number) => void;
 }
