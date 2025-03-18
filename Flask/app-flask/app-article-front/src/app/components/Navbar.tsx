@@ -2,9 +2,25 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
-import SearchBar from './SearchBar'
+import SearchBar from './SearchBar';
 
-const Navbar = () => {
+interface Article {
+  id: number;
+  title: string;
+  content: string;
+  image_url: string;
+  author: string;
+  created_at: string;
+}
+
+
+interface NavbarProps {
+  articles: Article[];
+  setFilteredArticles: (articles: Article[]) => void
+}
+
+
+const Navbar: React.FC<NavbarProps> = ({articles, setFilteredArticles}) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -42,8 +58,11 @@ const Navbar = () => {
        <div className="container mx-auto flex justify-between items-center">
         <a href="/" className='text-xl font-bold'>Mi Artículo</a>
 
-          {/* Componente para Buscar */}
-          <SearchBar/>
+            {/* Componente para Buscar */}
+          <SearchBar
+              articles={articles}
+              setFilteredArticles={setFilteredArticles}
+          />
 
             <ul className='flex space-x-6 items-center'>
 
