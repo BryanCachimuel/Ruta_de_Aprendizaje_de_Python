@@ -1,16 +1,8 @@
 import React from "react"
 import Navbar from "./Navbar"
 import Footer from "./Footer"
+import { Article } from "@/types/article";
 
-interface Article {
-    id: number;
-    title: string;
-    content: string;
-    image_url: string;
-    author: string;
-    created_at: string;
-}
-  
 
 interface LayoutProps {
     children: React.ReactNode;

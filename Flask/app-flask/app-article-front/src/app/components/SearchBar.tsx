@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { Article } from '@/types/article';
 
-interface Article {
-    id: number;
-    title: string;
-    content: string;
-    image_url: string;
-    author: string;
-    created_at: string;
-}
 
 interface SearchBarProps {
     articles: Article[];

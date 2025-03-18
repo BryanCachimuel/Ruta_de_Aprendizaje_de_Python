@@ -3,15 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import SearchBar from './SearchBar';
-
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-  image_url: string;
-  author: string;
-  created_at: string;
-}
+import { Article } from '@/types/article';
 
 
 interface NavbarProps {
