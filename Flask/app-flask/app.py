@@ -149,5 +149,18 @@ def view_article(article_id):
         'image_url': article.image_url
     })
 
+# obtener los artículos favoritos
+@app.route('/favorite/<int:article_id>', methods=['POST'])
+def toogle_favorite(article_id):
+    data = request.get_json()
+    is_favorite = data.get('isFavorite')
+
+    article = Article.query.get_or_404(article_id)
+    article.is_favorite = is_favorite
+
+    db.session.commit()
+
+    return jsonify({'message': 'Estado de favorito Actualizado'}), 201
+
 if __name__ == '__main':
     app.run(debug=True)
