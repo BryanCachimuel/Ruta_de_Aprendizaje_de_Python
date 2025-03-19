@@ -15,10 +15,27 @@ export default function Home() {
     
     fetch('http://localhost:5000/articles')
     .then(response => response.json())
-    .then(data => setArticles(data))
+    .then(data => {
+      setArticles(data)
+      setFilteredArticles(data)
+    })
     .catch(error => console.log('Error al obtener los artículos: ', error))
 
   }, [])
+
+  /* consumir el endponit de artículo favorito */
+  const toggleFavorite = (id: number) => {
+      setArticles(
+        prevArticles => prevArticles.map(article => 
+          article.id === id
+          ?{
+            ...article,
+            isFavorite: !article.isFavorite
+          }
+          : article
+        )
+      )
+  }
   
 
   return (
@@ -37,6 +54,8 @@ export default function Home() {
                   image_url={article.image_url}
                   author={article.author}
                   created_at={article.created_at}
+                  isFavorite={article.isFavorite}
+                  toggleFavorite={toggleFavorite}
                  />
                 ))
               }
