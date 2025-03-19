@@ -6,7 +6,7 @@ import { Article } from '@/types/article';
 
 interface SearchBarProps {
     articles: Article[];
-    setFilteredArticles: (articles: Article[]) => void
+    setFilteredArticles?: (articles: Article[]) => void
 }
   
 
@@ -15,6 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({articles, setFilteredArticles}) =>
     const [query, setQuery] = useState('')
 
     useEffect(() => {
+     if(setFilteredArticles){
       if(query === ''){
         setFilteredArticles(articles)
       }else{
@@ -25,6 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = ({articles, setFilteredArticles}) =>
             )
         )
       }
+     }
     }, [query, articles, setFilteredArticles])
     
   

@@ -7,7 +7,7 @@ import { Article } from "@/types/article";
 interface LayoutProps {
     children: React.ReactNode;
     articles: Article[];
-    setFilteredArticles: (articles: Article[]) => void;
+    setFilteredArticles?: (articles: Article[]) => void;
 }
 
 

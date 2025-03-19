@@ -8,7 +8,7 @@ import { Article } from '@/types/article';
 
 interface NavbarProps {
   articles: Article[];
-  setFilteredArticles: (articles: Article[]) => void
+  setFilteredArticles?: (articles: Article[]) => void
 }
 
 
