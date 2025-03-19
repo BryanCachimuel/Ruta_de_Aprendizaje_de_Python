@@ -35,6 +35,15 @@ export default function Home() {
           : article
         )
       )
+
+      const updateArticle = articles.find(article => article.id === id)
+
+      fetch(`http://localhost:5000/favorite/${id}`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({isFavorite: updateArticle ? !updateArticle.isFavorite: false})}
+      )
+      .catch(error=> console.error('Error al actualizar el artículo favorito', error))
   }
   
 
