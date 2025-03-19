@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { CardProps } from '@/types/article'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as fasHeart, faBookmark as fasBookmark } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart, faBookmark as farBookmark } from '@fortawesome/free-solid-svg-icons'
 
 const Card: React.FC<CardProps> = ({id, title, content, image_url,author,created_at, isFavorite, toggleFavorite}) => {
-    return (
+  
+  const [isBookmarked, setIsBookmarked] = useState(false)
+  
+  return (
       <div className='bg-gray-100 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300'>
         {
           image_url && (
@@ -24,10 +27,22 @@ const Card: React.FC<CardProps> = ({id, title, content, image_url,author,created
                 <span>Leer Más</span>
             </Link>
         </div>
+        <hr />
         <div className='p-4 bg-indigo-600 text-center'>
+        <button
+            onClick={() => setIsBookmarked(!isBookmarked)}
+            className='bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg hover:bg-white transition-all duration-300'
+          >
+            <FontAwesomeIcon
+              icon={isBookmarked ? fasBookmark : farBookmark}
+              className={`h-5 w-5 ${
+                isBookmarked ? 'text-red-600' : 'text-gray-600'
+              } group-hover:scale-100 transition-all duration-300`}
+            />
+          </button>
            <button
             onClick={() =>toggleFavorite(id)}
-            className='bg-white/900 backdrop-blur-sm rounded-full p-2.5 shadow-lg hover:bg-white transition-all duration-300'
+            className='bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg hover:bg-white transition-all duration-300'
            >
             <FontAwesomeIcon
               icon={isFavorite ? fasHeart : farHeart}
