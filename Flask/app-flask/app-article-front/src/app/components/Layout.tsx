@@ -11,7 +11,7 @@ interface LayoutProps {
 }
 
 
-const Layout: React.FC<LayoutProps> = ({ children, articles, setFilteredArticles }) => {
+const Layout: React.FC<LayoutProps> = ({children, articles, setFilteredArticles}) => {
     return(
         <div className="flex flex-col min-h-screen">
             <Navbar articles={articles} setFilteredArticles={setFilteredArticles}/>
