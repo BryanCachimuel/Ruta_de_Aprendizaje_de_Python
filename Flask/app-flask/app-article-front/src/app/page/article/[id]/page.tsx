@@ -1,35 +1,28 @@
 'use client'
 import Layout from "@/app/components/Layout";
+import { useArticle } from "@/context/ArticleProvider";
+import { Article } from "@/types/article";
 import React, { useState, useEffect } from "react"
-
-
-interface Article {
-    id: number;
-    title: string;
-    content: string;
-  }
 
    
 const ArticlePage = ({params}: {params : Promise<{id: string}>}) => {
 
-    const [article, setArticle] = useState<Article | null>(null)
+    const [article, setArticles] = useState<Article | null>(null);
+    const { fetchArticleById } = useArticle()
 
     useEffect(() => {
-
-     const fetchArticle = async () => {
-        try {
-            const resolvedParams = await params
-            const response = await fetch(`http://127.0.0.1:5000/article/${resolvedParams.id}`)
-            const data = await response.json()
-            setArticle(data)
-        } catch (error) {
-            console.log('Error al obtener el artículo', error)
+        const loadArticle = async() => {
+            try {
+                const resolvedParams = await params;
+                const articleData = await fetchArticleById(parseInt(resolvedParams.id))
+                setArticles(articleData)
+            } catch (error) {
+                console.error('Error al obtener el artículo', error)
+            }
         }
-     }
-
-     fetchArticle()
-
-    }, [params])
+        loadArticle();
+    }, [params, fetchArticleById])
+    
 
     if(!article) {
         return (
