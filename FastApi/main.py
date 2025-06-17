@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 app = FastAPI()
 
@@ -18,6 +18,7 @@ class Movie(BaseModel):
       rating: float
       category: str
 
+# Modelo para el método update
 class MovieUpdate(BaseModel):
     title: str
     overview: str
@@ -61,19 +62,22 @@ movies = [
     }
 ]
 
-@app.get('/movies', tags=['Movies'])
-def get_movies():
-    # return {"movie": "Los Vengadores"}
-    return movies
-
 # se puede enviar una respuesta HTML hacia el cliente
 @app.get('/show', tags=['Movies'])
 def home():
     return HTMLResponse('<h1>Show The Batman</h1>')
 
+
+# Obtener el listado de peliculas, -> List[Movie] identifica que está ruta va retornar una lista y de igual forma se muestra en las demás rutas
+@app.get('/movies', tags=['Movies'])
+def get_movies() -> List[Movie]:
+    # return {"movie": "Los Vengadores"}
+    return movies
+
+
 # Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
 @app.get('/movies/{id}', tags=['Movies'])
-def get_movie(id: int):
+def get_movie(id: int) -> Movie:
     for movie in movies:
         if movie['id'] == id:
             return movie
@@ -81,7 +85,7 @@ def get_movie(id: int):
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
 @app.get('/movies/', tags=['Movies'])
-def get_movie_by_category(category: str, year: int):
+def get_movie_by_category(category: str, year: int) -> Movie:
     for movie in movies:
         if movie['category'] == category:
             return movie
@@ -91,13 +95,13 @@ def get_movie_by_category(category: str, year: int):
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
 # model_dum nos trae el esquema de los atributos de la clase Movie
 @app.post('/movies', tags=['Movies'])
-def create_movie(movie: Movie):
+def create_movie(movie: Movie) -> List[Movie]:
     movies.append(movie.model_dump())
     return movies
 
 # Método PUT
 @app.put('/movies/{id}', tags=['Movies'])
-def update_movie(id: int, movie: MovieUpdate):
+def update_movie(id: int, movie: MovieUpdate) -> List[Movie]:
     for mv in movies:
         if mv['id'] == id:
             mv['title'] = movie.title
@@ -109,7 +113,7 @@ def update_movie(id: int, movie: MovieUpdate):
     
 # Método delete
 @app.delete('/movies/{id}', tags=['Movies'])
-def delete_movie(id: int):
+def delete_movie(id: int) -> List[Movie]:
     for movie in movies:
         if movie['id'] == id:
             movies.remove(movie)
