@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
@@ -39,18 +39,18 @@ movies = [
     }
 ]
 
-@app.get('/movies', tags=['Home'])
+@app.get('/movies', tags=['Movies'])
 def get_movies():
     # return {"movie": "Los Vengadores"}
     return movies
 
 # se puede enviar una respuesta HTML hacia el cliente
-@app.get('/show', tags=['Home'])
+@app.get('/show', tags=['Movies'])
 def home():
     return HTMLResponse('<h1>Show The Batman</h1>')
 
 # Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
-@app.get('/movies/{id}', tags=['Home'])
+@app.get('/movies/{id}', tags=['Movies'])
 def get_movie(id: int):
     for movie in movies:
         if movie['id'] == id:
@@ -58,10 +58,30 @@ def get_movie(id: int):
     return []
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
-@app.get('/movies/', tags=['Home'])
+@app.get('/movies/', tags=['Movies'])
 def get_movie_by_category(category: str, year: int):
     for movie in movies:
         if movie['category'] == category:
             return movie
     return []
+
+
+# Método POST, se agrega el Body para obtener estos resultados desde un formulario
+@app.post('/movies', tags=['Movies'])
+def create_movie(id: int = Body(), 
+                 title: str = Body(), 
+                 overview: str = Body(), 
+                 year: int = Body(), 
+                 rating: float = Body(), 
+                 category: str = Body()):
+    movies.append({
+        "id": id,
+        "title": title,
+        "overview": overview,
+        "year": year,
+        "rating": rating,
+        "category": category
+    })
+
+    return movies
     
