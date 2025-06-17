@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -16,3 +17,13 @@ app = FastAPI()
 @app.get('/', tags=['Home'])
 def home():
     return "Hola desde FastApi"
+
+# Formas de uso del método get y sus tipos de respuesta en el retorno que se puede tener
+@app.get('/movies', tags=['Home'])
+def home():
+    return {"movie": "Los Vengadores"}
+
+# se puede enviar una respuesta HTML hacia el cliente
+@app.get('/show', tags=['Home'])
+def home():
+    return HTMLResponse('<h1>Show The Batman</h1>')
