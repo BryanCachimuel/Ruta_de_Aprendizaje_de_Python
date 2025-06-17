@@ -1,7 +1,17 @@
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
 
 app = FastAPI()
+
+# Modelo de datos
+class Movie(BaseModel):
+      id: int | None = None
+      title: str
+      overview: str
+      year: int
+      rating: float
+      category: str
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
@@ -67,22 +77,10 @@ def get_movie_by_category(category: str, year: int):
 
 
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
+# model_dum nos trae el esquema de los atributos de la clase Movie
 @app.post('/movies', tags=['Movies'])
-def create_movie(id: int = Body(), 
-                 title: str = Body(), 
-                 overview: str = Body(), 
-                 year: int = Body(), 
-                 rating: float = Body(), 
-                 category: str = Body()):
-    movies.append({
-        "id": id,
-        "title": title,
-        "overview": overview,
-        "year": year,
-        "rating": rating,
-        "category": category
-    })
-
+def create_movie(movie: Movie):
+    movies.append(movie.model_dump())
     return movies
 
 # Método PUT
