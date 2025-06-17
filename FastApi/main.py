@@ -28,11 +28,19 @@ movies = [
         "year": "2009",
         "rating": 7.8,
         "category": "Acción"
+    },
+    {
+        "id": 2,
+        "title": "Los Vengadores",
+        "overview": "Un grupo de superheroes se juntan para vengar al planeta Tierra",
+        "year": "2018",
+        "rating": 9.1,
+        "category": "Acción"
     }
 ]
 
 @app.get('/movies', tags=['Home'])
-def home():
+def get_movies():
     # return {"movie": "Los Vengadores"}
     return movies
 
@@ -40,3 +48,12 @@ def home():
 @app.get('/show', tags=['Home'])
 def home():
     return HTMLResponse('<h1>Show The Batman</h1>')
+
+# Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
+@app.get('/movies/{id}', tags=['Home'])
+def get_movie(id: int):
+    for movie in movies:
+        if movie['id'] == id:
+            return movie
+    return []
+    
