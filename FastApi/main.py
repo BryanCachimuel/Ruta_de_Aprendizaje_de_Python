@@ -19,9 +19,22 @@ def home():
     return "Hola desde FastApi"
 
 # Formas de uso del método get y sus tipos de respuesta en el retorno que se puede tener
+
+movies = [
+    {
+        "id": 1,
+        "title": "Avatar",
+        "overview": "En un exuberante planeta viven los Navi",
+        "year": "2009",
+        "rating": 7.8,
+        "category": "Acción"
+    }
+]
+
 @app.get('/movies', tags=['Home'])
 def home():
-    return {"movie": "Los Vengadores"}
+    # return {"movie": "Los Vengadores"}
+    return movies
 
 # se puede enviar una respuesta HTML hacia el cliente
 @app.get('/show', tags=['Home'])
