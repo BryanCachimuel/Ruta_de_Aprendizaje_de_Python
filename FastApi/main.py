@@ -1,17 +1,29 @@
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+from typing import Optional
 
 app = FastAPI()
 
 # Modelo de datos
+# Para decir que un atributo es opcional se debe utilizar la librería Optional
+# Este Modelo servirá para registrar datos o para consultar datos
+
 class Movie(BaseModel):
-      id: int | None = None
+      #id: Optional[int] = None
+      id: int
       title: str
       overview: str
       year: int
       rating: float
       category: str
+
+class MovieUpdate(BaseModel):
+    title: str
+    overview: str
+    year: int
+    rating: float
+    category: str
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
@@ -85,20 +97,14 @@ def create_movie(movie: Movie):
 
 # Método PUT
 @app.put('/movies/{id}', tags=['Movies'])
-def update_movie(
-                 id: int,
-                 title: str = Body(), 
-                 overview: str = Body(), 
-                 year: int = Body(), 
-                 rating: float = Body(), 
-                 category: str = Body()):
-    for movie in movies:
-        if movie['id'] == id:
-            movie['title'] = title
-            movie['overview'] = overview
-            movie['year'] = year
-            movie['rating'] = rating
-            movie['category'] = category
+def update_movie(id: int, movie: MovieUpdate):
+    for mv in movies:
+        if mv['id'] == id:
+            mv['title'] = movie.title
+            mv['overview'] = movie.overview
+            mv['year'] = movie.year
+            mv['rating'] = movie.rating
+            mv['category'] = movie.category
     return movies
     
 # Método delete
