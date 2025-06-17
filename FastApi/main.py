@@ -35,7 +35,7 @@ movies = [
         "overview": "Un grupo de superheroes se juntan para vengar al planeta Tierra",
         "year": "2018",
         "rating": 9.1,
-        "category": "Acción"
+        "category": "Ficción"
     }
 ]
 
@@ -54,6 +54,14 @@ def home():
 def get_movie(id: int):
     for movie in movies:
         if movie['id'] == id:
+            return movie
+    return []
+
+# Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
+@app.get('/movies/', tags=['Home'])
+def get_movie_by_category(category: str, year: int):
+    for movie in movies:
+        if movie['category'] == category:
             return movie
     return []
     
