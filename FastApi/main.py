@@ -103,3 +103,10 @@ def update_movie(
             movie['category'] = category
     return movies
     
+# Método delete
+@app.delete('/movies/{id}', tags=['Movies'])
+def delete_movie(id: int):
+    for movie in movies:
+        if movie['id'] == id:
+            movies.remove(movie)
+    return movies
