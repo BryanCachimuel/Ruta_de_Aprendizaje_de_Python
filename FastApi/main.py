@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
+import datetime
 
 app = FastAPI()
 
@@ -25,6 +26,31 @@ class MovieUpdate(BaseModel):
     year: int
     rating: float
     category: str
+
+# Validación de datos, se usa Field para validar y se pode de dos maneras el defaul en cada atributo del Modelo
+class MovieCreate(BaseModel):
+    id: int
+    title: str = Field(min_length=5, max_length=15, default='My Movie')
+    overview: str = Field(min_length=15, max_length=50)
+    year: int = Field(le=datetime.date.today().year, ge=1900)
+    rating: float = Field(ge=0, le=10)
+    category: str = Field(min_length=5, max_length=20)
+
+    # para no poner el defaul dentro de los Field
+    model_config = {
+        'json_schema_extra': {
+            'example': {
+                'id': 1,
+                'title': 'My Movie',
+                'overview': 'Está película trata acerca de ....',
+                'year': 2023,
+                'rating': 5.2,
+                'category': 'Acción'
+            }
+        }
+    }
+
+
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
@@ -95,7 +121,7 @@ def get_movie_by_category(category: str, year: int) -> Movie:
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
 # model_dum nos trae el esquema de los atributos de la clase Movie
 @app.post('/movies', tags=['Movies'])
-def create_movie(movie: Movie) -> List[Movie]:
+def create_movie(movie: MovieCreate) -> List[Movie]:
     movies.append(movie.model_dump())
     return movies
 
