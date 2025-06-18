@@ -69,24 +69,7 @@ def home():
 
 # Formas de uso del método get y sus tipos de respuesta en el retorno que se puede tener
 
-movies = [
-    {
-        "id": 1,
-        "title": "Avatar",
-        "overview": "En un exuberante planeta viven los Navi",
-        "year": "2009",
-        "rating": 7.8,
-        "category": "Acción"
-    },
-    {
-        "id": 2,
-        "title": "Los Vengadores",
-        "overview": "Un grupo de superheroes se juntan para vengar al planeta Tierra",
-        "year": "2018",
-        "rating": 9.1,
-        "category": "Ficción"
-    }
-]
+movies: List[Movie] = []
 
 # se puede enviar una respuesta HTML hacia el cliente
 @app.get('/show', tags=['Movies'])
@@ -98,7 +81,7 @@ def home():
 @app.get('/movies', tags=['Movies'])
 def get_movies() -> List[Movie]:
     # return {"movie": "Los Vengadores"}
-    return movies
+    return [movie.model_dump() for movie in movies]
 
 
 # Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
@@ -106,7 +89,7 @@ def get_movies() -> List[Movie]:
 def get_movie(id: int) -> Movie:
     for movie in movies:
         if movie['id'] == id:
-            return movie
+            return movie.model_dump()
     return []
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
@@ -114,7 +97,7 @@ def get_movie(id: int) -> Movie:
 def get_movie_by_category(category: str, year: int) -> Movie:
     for movie in movies:
         if movie['category'] == category:
-            return movie
+            return movie.model_dump()
     return []
 
 
@@ -122,8 +105,9 @@ def get_movie_by_category(category: str, year: int) -> Movie:
 # model_dum nos trae el esquema de los atributos de la clase Movie
 @app.post('/movies', tags=['Movies'])
 def create_movie(movie: MovieCreate) -> List[Movie]:
-    movies.append(movie.model_dump())
-    return movies
+    # movies.append(movie.model_dump())
+    movies.append(movie)
+    return [movie.model_dump() for movie in movies]
 
 # Método PUT
 @app.put('/movies/{id}', tags=['Movies'])
@@ -135,7 +119,7 @@ def update_movie(id: int, movie: MovieUpdate) -> List[Movie]:
             mv['year'] = movie.year
             mv['rating'] = movie.rating
             mv['category'] = movie.category
-    return movies
+    return [movie.model_dump() for movie in movies]
     
 # Método delete
 @app.delete('/movies/{id}', tags=['Movies'])
@@ -143,4 +127,4 @@ def delete_movie(id: int) -> List[Movie]:
     for movie in movies:
         if movie['id'] == id:
             movies.remove(movie)
-    return movies
+    return [movie.model_dump() for movie in movies]
