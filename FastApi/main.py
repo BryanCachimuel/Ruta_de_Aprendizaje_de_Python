@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Path, Query
-from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse, FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
 import datetime
@@ -136,3 +136,9 @@ def delete_movie(id: int) -> List[Movie]:
             movies.remove(movie)
     content = [movie.model_dump() for movie in movies]
     return JSONResponse(content=content)
+
+
+# Probando el tipo de respuesta de archivo
+@app.get('/get_file')
+def get_file():
+    return FileResponse('file.pdf')
