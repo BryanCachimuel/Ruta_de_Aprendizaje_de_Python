@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Path
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
@@ -85,12 +85,13 @@ def get_movies() -> List[Movie]:
 
 
 # Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
+# Validaciones de parámetros
 @app.get('/movies/{id}', tags=['Movies'])
-def get_movie(id: int) -> Movie:
+def get_movie(id: int = Path(gt=0)) -> Movie | dict:
     for movie in movies:
-        if movie['id'] == id:
+        if movie.id == id:
             return movie.model_dump()
-    return []
+    return {}
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
 @app.get('/movies/', tags=['Movies'])
