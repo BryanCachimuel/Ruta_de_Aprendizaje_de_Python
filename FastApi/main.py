@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Path, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
 import datetime
@@ -81,7 +81,8 @@ def home():
 @app.get('/movies', tags=['Movies'])
 def get_movies() -> List[Movie]:
     # return {"movie": "Los Vengadores"}
-    return [movie.model_dump() for movie in movies]
+    content = [movie.model_dump() for movie in movies]
+    return JSONResponse(content=content)
 
 
 # Parámetro en las rutas se agrega en la ruta, en el primer parámetro de la siguiente forma /{id}
@@ -90,16 +91,16 @@ def get_movies() -> List[Movie]:
 def get_movie(id: int = Path(gt=0)) -> Movie | dict:
     for movie in movies:
         if movie.id == id:
-            return movie.model_dump()
-    return {}
+            return JSONResponse(content=movie.model_dump())
+    return JSONResponse(content={})
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
 @app.get('/movies/', tags=['Movies'])
 def get_movie_by_category(category: str = Query(min_length=5, max_length=20)) -> Movie | dict:
     for movie in movies:
         if movie.category == category:
-            return movie.model_dump()
-    return {}
+            return JSONResponse(content=movie.model_dump())
+    return JSONResponse(content={})
 
 
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
@@ -108,24 +109,27 @@ def get_movie_by_category(category: str = Query(min_length=5, max_length=20)) ->
 def create_movie(movie: MovieCreate) -> List[Movie]:
     # movies.append(movie.model_dump())
     movies.append(movie)
-    return [movie.model_dump() for movie in movies]
+    content = [movie.model_dump() for movie in movies]
+    return JSONResponse(content=content)
 
 # Método PUT
 @app.put('/movies/{id}', tags=['Movies'])
 def update_movie(id: int, movie: MovieUpdate) -> List[Movie]:
     for mv in movies:
-        if mv['id'] == id:
-            mv['title'] = movie.title
-            mv['overview'] = movie.overview
-            mv['year'] = movie.year
-            mv['rating'] = movie.rating
-            mv['category'] = movie.category
-    return [movie.model_dump() for movie in movies]
+        if mv.id == id:
+            mv.title = movie.title
+            mv.overview = movie.overview
+            mv.year = movie.year
+            mv.rating = movie.rating
+            mv.category = movie.category
+    content = [movie.model_dump() for movie in movies]
+    return JSONResponse(content=content)
     
 # Método delete
 @app.delete('/movies/{id}', tags=['Movies'])
 def delete_movie(id: int) -> List[Movie]:
     for movie in movies:
-        if movie['id'] == id:
+        if movie.id == id:
             movies.remove(movie)
-    return [movie.model_dump() for movie in movies]
+    content = [movie.model_dump() for movie in movies]
+    return JSONResponse(content=content)
