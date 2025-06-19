@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, Path
+from fastapi import FastAPI, Body, Path, Query
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
@@ -95,11 +95,11 @@ def get_movie(id: int = Path(gt=0)) -> Movie | dict:
 
 # Parámetros query, su estructura en la url se identifica así: localhost:5000/movies/?id=123
 @app.get('/movies/', tags=['Movies'])
-def get_movie_by_category(category: str, year: int) -> Movie:
+def get_movie_by_category(category: str = Query(min_length=5, max_length=20)) -> Movie | dict:
     for movie in movies:
-        if movie['category'] == category:
+        if movie.category == category:
             return movie.model_dump()
-    return []
+    return {}
 
 
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
