@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Path, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
 import datetime
@@ -63,9 +63,10 @@ class MovieCreate(BaseModel):
 
 
 # en la sección tags se agrega este nombre para quitar el nombre default establecido en la documentación
+# PlainTextResponse -> imprimir una respuesta sin ningun tipo de formato
 @app.get('/', tags=['Home'])
 def home():
-    return "Hola desde FastApi"
+    return PlainTextResponse(content='Hola desde FastAPI')
 
 # Formas de uso del método get y sus tipos de respuesta en el retorno que se puede tener
 
@@ -105,12 +106,14 @@ def get_movie_by_category(category: str = Query(min_length=5, max_length=20)) ->
 
 # Método POST, se agrega el Body para obtener estos resultados desde un formulario
 # model_dum nos trae el esquema de los atributos de la clase Movie
+# RedirectResponse -> redirige hacia una ruta y se agrega el estado del código
 @app.post('/movies', tags=['Movies'])
 def create_movie(movie: MovieCreate) -> List[Movie]:
-    # movies.append(movie.model_dump())
     movies.append(movie)
     content = [movie.model_dump() for movie in movies]
     return JSONResponse(content=content)
+    #return RedirectResponse('/movies', status_code=303)
+    
 
 # Método PUT
 @app.put('/movies/{id}', tags=['Movies'])
