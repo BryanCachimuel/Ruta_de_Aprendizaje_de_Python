@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Body, Path, Query
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse, FileResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List
 import datetime
 
@@ -30,7 +30,7 @@ class MovieUpdate(BaseModel):
 # Validación de datos, se usa Field para validar y se pode de dos maneras el defaul en cada atributo del Modelo
 class MovieCreate(BaseModel):
     id: int
-    title: str = Field(min_length=5, max_length=15, default='My Movie')
+    title: str
     overview: str = Field(min_length=15, max_length=50)
     year: int = Field(le=datetime.date.today().year, ge=1900)
     rating: float = Field(ge=0, le=10)
@@ -50,7 +50,13 @@ class MovieCreate(BaseModel):
         }
     }
 
-
+    @field_validator('title')
+    def validate_title(cls, value):
+        if len(value) < 5:
+            raise ValueError('Title field must have a minimun length of 5 chareacters')
+        if len(value) > 15:
+            raise ValueError('Title field must have a maximun length of 15 chareacters')
+        return value
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
