@@ -38,8 +38,8 @@ templates = Jinja2Templates(directory=templates_path)
 # en la sección tags se agrega este nombre para quitar el nombre default establecido en la documentación
 # PlainTextResponse -> imprimir una respuesta sin ningun tipo de formato
 @app.get('/', tags=['Home'])
-def home():
-    return PlainTextResponse(content='Hola desde FastAPI', status_code=200)
+def home(request: Request):
+    return templates.TemplateResponse('index.html', {'request':request,'message':'Welcome'})
 
 
 # incluyendo las rutas del archivo movie_router
