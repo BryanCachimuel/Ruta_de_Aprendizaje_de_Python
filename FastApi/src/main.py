@@ -1,9 +1,17 @@
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse, Response, JSONResponse
 from src.routers.movie_router import movie_router
+from src.utils.http_error_handler import HTTPErrorHandler
+from fastapi.requests import Request
 
 app = FastAPI()
 
+# mandando a llamar al middleware de control de errores
+#app.add_middleware(HTTPErrorHandler)
+@app.middleware('http')
+async def http_error_handler(request: Request, call_next) -> Response | JSONResponse:
+    print('Middleware is running')
+    return await call_next(request)
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
