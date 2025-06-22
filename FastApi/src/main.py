@@ -4,6 +4,11 @@ from src.routers.movie_router import movie_router
 from src.utils.http_error_handler import HTTPErrorHandler
 from fastapi.requests import Request
 
+# Importando el motor de plantilla jinja2
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import os
+
 app = FastAPI()
 
 # mandando a llamar al middleware de control de errores
@@ -12,6 +17,13 @@ app = FastAPI()
 async def http_error_handler(request: Request, call_next) -> Response | JSONResponse:
     print('Middleware is running')
     return await call_next(request)
+
+# definir donde van a estar ubicados los archivos estáticos y archivos template
+static_path = os.path.join(os.path.dirname(__file__), 'static/')
+templates_path = os.path.join(os.path.dirname(__file__), 'templates/')
+
+app.mount('/static', StaticFiles(directory=static_path), 'static')
+templates = Jinja2Templates(directory=templates_path)
 
 # para cambiar el puerto por defecto de la aplicación: uvicorn main:app --port 5000
 # para que se guarden los cambios en el código sin tener que pausar el servidor: uvicorn main:app --port 5000 --reload
