@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse, Response, JSONResponse
 from src.routers.movie_router import movie_router
 from src.utils.http_error_handler import HTTPErrorHandler
@@ -57,3 +57,15 @@ def home():
 @app.get('/get_file')
 def get_file():
     return FileResponse('file.pdf')
+
+# Inyección de dependencias
+def common_params(start_date: str, end_date: str):
+    return { "start_date": start_date, "end_date": end_date }
+
+@app.get('/users')
+def get_users(commons: dict = Depends(common_params)):
+    return f"Users created between {commons['start_date']} and {commons['end_date']}"
+
+@app.get('/customers')
+def get_customer(commons: dict = Depends(common_params)):
+    return f"Customers created between {commons['start_date']} and {commons['end_date']}"
