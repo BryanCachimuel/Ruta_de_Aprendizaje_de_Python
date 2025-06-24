@@ -10,7 +10,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 
-app = FastAPI()
+# Agregando depencias de forma global
+def dependency1():
+    print("Global dependecy 1")
+
+def dependency2():
+    print("Global dependecy 2")
+
+app = FastAPI(dependencies=[Depends(dependency1), Depends(dependency2)])
 
 # mandando a llamar al middleware de control de errores
 #app.add_middleware(HTTPErrorHandler)
