@@ -1,8 +1,9 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Query
 from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse, Response, JSONResponse
 from src.routers.movie_router import movie_router
 from src.utils.http_error_handler import HTTPErrorHandler
 from fastapi.requests import Request
+from typing import Annotated
 
 # Importando el motor de plantilla jinja2
 from fastapi.staticfiles import StaticFiles
@@ -62,10 +63,12 @@ def get_file():
 def common_params(start_date: str, end_date: str):
     return { "start_date": start_date, "end_date": end_date }
 
-@app.get('/users')
-def get_users(commons: dict = Depends(common_params)):
+commonsDep = Annotated[dict, Depends(common_params)]
+
+@app.get('/users', tags=['Dependencias'])
+def get_users(commons: commonsDep):
     return f"Users created between {commons['start_date']} and {commons['end_date']}"
 
-@app.get('/customers')
-def get_customer(commons: dict = Depends(common_params)):
+@app.get('/customers', tags=['Dependencias'])
+def get_customer(commons: commonsDep):
     return f"Customers created between {commons['start_date']} and {commons['end_date']}"
