@@ -60,15 +60,20 @@ def get_file():
     return FileResponse('file.pdf')
 
 # Inyección de dependencias
-def common_params(start_date: str, end_date: str):
-    return { "start_date": start_date, "end_date": end_date }
+#def common_params(start_date: str, end_date: str):
+#    return { "start_date": start_date, "end_date": end_date }
 
-commonsDep = Annotated[dict, Depends(common_params)]
+#commonsDep = Annotated[dict, Depends(common_params)]
+
+class commonsDep:
+    def __init__(self, start_date: str, end_date: str) -> None:
+        self.start_date = start_date
+        self.end_date = end_date
 
 @app.get('/users', tags=['Dependencias'])
-def get_users(commons: commonsDep):
-    return f"Users created between {commons['start_date']} and {commons['end_date']}"
+def get_users(commons: commonsDep = Depends()):
+    return f"Users created between {commons.start_date} and {commons.end_date}"
 
 @app.get('/customers', tags=['Dependencias'])
-def get_customer(commons: commonsDep):
-    return f"Customers created between {commons['start_date']} and {commons['end_date']}"
+def get_customer(commons: commonsDep = Depends()):
+    return f"Customers created between {commons.start_date} and {commons.end_date}"
